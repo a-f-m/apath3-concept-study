@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValueSet>
+
+	<status value="draft" />
+	<description value="..." />
+
+	<codeSystem>
+		<extension url="ext:groupName">
+			<valueString value="EXA" />
+		</extension>
+		<extension url="ext:resourceId">
+			<valueString value="classif-1" />
+		</extension>
+		<extension url="ext:language">
+			<!-- IETF language tag (RFC 5646) restricted to 2-letter tags; so far 
+				not checked; only relevant when 'defining' a code system -->
+			<valueCode value="de" />
+		</extension>
+		<!-- URI to identify the code system (an OID of form 'urn:oid:1.2.3' or 
+			a general URI): -->
+		<system value="http://test/vs/classif-1" />
+		<version value="2016-01-01"/>
+		<concept>
+			<code value="1" />
+			<concept>
+				<code value="2" />
+				<display value="aa bb cc" />
+				<designation>
+					<value value="aa" />
+				</designation>
+			</concept>
+			<concept>
+				<code value="3" />
+				<display value="dd ee ff" />
+			</concept>
+		</concept>
+	</codeSystem>
+</ValueSet>

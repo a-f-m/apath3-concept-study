@@ -1,0 +1,25 @@
+<doc>
+	<root>
+		<store>
+			<books>
+				<book id="1">
+					<category>reference</category>
+					<author>Nigel Rees</author>
+					<title>Sayings of the Century</title>
+					<price>8.95</price>
+				</book>
+				<book id="2">
+					<category>fiction</category>
+					<author>Evelyn Waugh</author>
+					<title>Sword of Honour</title>
+					<price>12.99</price>
+				</book>
+			</books>
+			<bicycle>
+				<color>red</color>
+				<price>19.95</price>
+			</bicycle>
+		</store>
+		<expensive>10</expensive>
+	</root>
+</doc>

@@ -1,0 +1,1560 @@
+<div class="row">
+    <section class="col-lg-8">
+        <div class="section-balken" style="background-color:#00a276"></div>
+        <div class="gray">
+            <div class="onepager_anchor" id="jump_speisepläne">Speisepläne</div>
+            <h1 class="heading">Speiseplan</h1>
+            <article class="col-sm-12">
+                <div class="white-box">
+                    <div class="container-fluid">
+                        <select id='listboxEinrichtungen' class="listboxStandorte" onchange='xhrLoad(0, "")'>
+                            <option value="534">Mensa ASH Berlin Hellersdorf</option>
+                            <option value="535">Mensa Beuth Hochschule für Technik Kurfürstenstraße</option>
+                            <option value="527">Mensa Beuth Hochschule für Technik Luxemburger Straße</option>
+                            <option value="537">Mensa Charité Zahnklinik</option>
+                            <option value="529">Mensa EHB Teltower Damm</option>
+                            <option value="271">Mensa FU Herrenhaus Düppel</option>
+                            <option value="322">Mensa FU II Otto-von-Simson-Straße</option>
+                            <option value="528">Mensa FU Lankwitz Malteserstraße</option>
+                            <option value="531">Mensa HfM Charlottenstraße</option>
+                            <option value="533">Mensa HfS Schnellerstraße</option>
+                            <option value="320"selected='selected'>Mensa HTW Treskowallee</option>
+                            <option value="319">Mensa HTW Wilhelminenhof</option>
+                            <option value="147">Mensa HU Nord</option>
+                            <option value="191">Mensa HU Oase Adlershof</option>
+                            <option value="367">Mensa HU Süd</option>
+                            <option value="270">Mensa HU Spandauer Straße</option>
+                            <option value="526">Mensa HWR Badensche Straße</option>
+                            <option value="532">Mensa Katholische HS für Sozialwesen</option>
+                            <option value="530">Mensa KHS Weißensee</option>
+                            <option value="321">Mensa TU Hardenbergstraße</option>
+                            <option value="323">Mensa Veggie № 1 - Die grüne Mensa</option>
+                            <option value="368">Cafeteria FU Ihnestraße</option>
+                            <option value="660">Cafeteria FU Koserstraße</option>
+                            <option value="542">Cafeteria FU Pharmazie</option>
+                            <option value="277">Cafeteria FU Rechtswissenschaft</option>
+                            <option value="543">Cafeteria FU Wirtschaftswissenschaften</option>
+                            <option value="659">Cafeteria HU „Jacob und Wilhelm Grimm Zentrum“</option>
+                            <option value="539">Cafeteria TU Ackerstraße</option>
+                            <option value="540">Cafeteria TU Architektur</option>
+                            <option value="657">Cafeteria TU „Skyline“</option>
+                            <option value="631">Cafeteria TU Hardenbergstraße</option>
+                            <option value="541">Cafeteria TU Hauptgebäude „Wetterleuchten“</option>
+                            <option value="538">Cafeteria TU Marchstraße</option>
+                            <option value="722">Cafeteria UdK „Jazz-Cafe“</option>
+                            <option value="658">Cafeteria UdK Lietzenburger Straße</option>
+                            <option value="647">Coffeebar Beuth Hochschule</option>
+                            <option value="648">Coffeebar Beuth Hochschule Haus Grashof</option>
+                            <option value="1407">Coffeebar EHB Teltower Damm</option>
+                            <option value="723">Coffeebar HfM „Neuer Marstall“</option>
+                            <option value="724">Coffeebar HfM Charlottenstraße</option>
+                            <option value="1651">Coffeebar HTW Treskowallee</option>
+                            <option value="725">Coffeebar HTW Wilhelminenhof</option>
+                            <option value="661">Coffeebar HU „c.t.“</option>
+                            <option value="721">Coffeebar HU Mensa Nord</option>
+                            <option value="720">Coffeebar HU Oase Adlershof</option>
+                            <option value="727">Coffeebar HWR Alt-Friedrichsfelde</option>
+                            <option value="728">Coffeebar HWR Badensche Straße</option>
+                            <option value="649">Coffeebar Mensa FU II</option>
+                            <option value="650">Coffeebar Mensa Lankwitz</option>
+                            <option value="632">Coffeebar TU Hardenbergstraße</option>
+                        </select>
+                    </div>
+                    <div class="back-to-overview" style="padding-left: 30px" onclick="backToOverview()">
+                        <a href="javascript:">Zurück zur Übersicht</a>
+                    </div>
+                    <div id="tagesreiter">
+                        <div class="container-fluid splReiter">
+                            <ul class="nav nav-tabs splTage">
+                                <li id="spltag1" onclick="loadSpeiseplanWochentag('2018-04-30')">
+                                    <a href role="tab" data-toggle="tab">Montag</a>
+                                </li>
+                                <li id="spltag2" onclick="loadSpeiseplanWochentag('2018-05-01')">
+                                    <a href role="tab" data-toggle="tab">Dienstag</a>
+                                </li>
+                                <li id="spltag3" onclick="loadSpeiseplanWochentag('2018-05-02')">
+                                    <a href role="tab" data-toggle="tab">Mittwoch</a>
+                                </li>
+                                <li id="spltag4" onclick="loadSpeiseplanWochentag('2018-05-03')">
+                                    <a href role="tab" data-toggle="tab">Donnerstag</a>
+                                </li>
+                                <li id="spltag5" onclick="loadSpeiseplanWochentag('2018-05-04')">
+                                    <a href role="tab" data-toggle="tab">Freitag</a>
+                                </li>
+                                <li id="spltag6" onclick="loadSpeiseplanWochentag('2018-05-05')">
+                                    <a href role="tab" data-toggle="tab">Samstag</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="speiseplan">
+                        <div class="container-fluid">
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-12">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                    <span class="bold">Freitag, 20.04.2018</span>
+                                </div>
+                            </div>
+                            <div class="row row-top-percent-2">
+                                <div class="col-xs-12 col-md-5">
+                                    <a href="/assets/speiseplaene/320/aktuelle_woche_de.pdf" download="aktuelle_woche_de">
+                                        <i class="glyphicon glyphicon-download"></i>
+                                    </a> Wochenplan herunterladen
+                                </div>
+                                <div id="wowe" class="col-xs-12 col-md-3 ptr toggleThisNextWeek" onclick="loadSpeiseplanWochentag('2018-04-27', 'next', '5')">
+                                    <i class="glyphicon glyphicon-step-forward actioncolor"></i>
+            Nächste Woche
+                                    <div id="hiddenDayNumber" class="hide">5</div>
+                                </div>
+                                <div class="col-xs-12 col-md-4 ptr toggleAllergenFilterPanel" onclick="toggleAllergenFilter()">
+                                    <i class="glyphicon glyphicon-filter actioncolor"></i>
+            Zusatzstoffe / Allergene
+                                </div>
+                            </div>
+                        </div>
+                        <div id="splFilterPanel" class="hide well row-top-percent-2">
+                            <div class="container-fluid" style="font-size:10px">
+                                <div class="row row-top-percent-1">
+                                    <div class="col-xs-12 col-md-10" onclick="clearSplFilter()">
+            Solche Essen ausschließen, welche markierte Zusatzstoffe / Allergene beinhalten.
+        </div>
+                                    <div class="col-xs-12 col-md-2 ptr clearFilter" onclick="clearSplFilter()">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+            Filter leeren
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid" style="font-size:11px">
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-2" class="itemkennz" onclick="filterArtikel()">
+                                        <span style='cursor:pointer' title='(2) Schweinefleisch bzw. mit Gelatine vom Schwein'>(2) Schweinefleisch bzw. mit ...</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-3" class="itemkennz" onclick="filterArtikel()"> (3) Alkohol
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-4" class="itemkennz" onclick="filterArtikel()"> (4) Geschmacksverstärker
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-5" class="itemkennz" onclick="filterArtikel()"> (5) gewachst
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-6" class="itemkennz" onclick="filterArtikel()"> (6) konserviert
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-7" class="itemkennz" onclick="filterArtikel()"> (7) Antioxidationsmittel
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-8" class="itemkennz" onclick="filterArtikel()"> (8) Farbstoff
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-9" class="itemkennz" onclick="filterArtikel()"> (9) Phosphat
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-10" class="itemkennz" onclick="filterArtikel()"> (10) geschwärzt
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-12" class="itemkennz" onclick="filterArtikel()">
+                                        <span style='cursor:pointer' title='(12) enthält eine Phenylalaninquelle'>(12) enthält eine ...</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-13" class="itemkennz" onclick="filterArtikel()"> (13) Süßungsmittel
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-14" class="itemkennz" onclick="filterArtikel()">
+                                        <span style='cursor:pointer' title='(14) mit zum Teil fein zerkleinertem Fleischanteil'>(14) mit zum Teil fein ...</span>
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-16" class="itemkennz" onclick="filterArtikel()"> (16) koffeinhaltig
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-17" class="itemkennz" onclick="filterArtikel()"> (17) chininhaltig
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-19" class="itemkennz" onclick="filterArtikel()"> (19) geschwefelt
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-20" class="itemkennz" onclick="filterArtikel()"> (20) kann abführend wirken
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid" style="font-size:11px">
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21" class="itemkennz" onclick="filterArtikel()"> (21) Glutenhaltiges Getreide
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21a" class="itemkennz" onclick="filterArtikel()"> (21a) Weizen
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21b" class="itemkennz" onclick="filterArtikel()"> (21b) Roggen
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21c" class="itemkennz" onclick="filterArtikel()"> (21c) Gerste
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21d" class="itemkennz" onclick="filterArtikel()"> (21d) Hafer
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21e" class="itemkennz" onclick="filterArtikel()"> (21e) Dinkel
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-21f" class="itemkennz" onclick="filterArtikel()"> (21f) Kamut
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-22" class="itemkennz" onclick="filterArtikel()"> (22) Krebstiere
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-23" class="itemkennz" onclick="filterArtikel()"> (23) Eier
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-24" class="itemkennz" onclick="filterArtikel()"> (24) Fisch
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-25" class="itemkennz" onclick="filterArtikel()"> (25) Erdnüsse
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26" class="itemkennz" onclick="filterArtikel()"> (26) Schalenfrüchte
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26a" class="itemkennz" onclick="filterArtikel()"> (26a) Mandeln
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26b" class="itemkennz" onclick="filterArtikel()"> (26b) Haselnuss
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26c" class="itemkennz" onclick="filterArtikel()"> (26c) Walnuss
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26d" class="itemkennz" onclick="filterArtikel()"> (26d) Kaschunuss
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26e" class="itemkennz" onclick="filterArtikel()"> (26e) Pacannuss
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26f" class="itemkennz" onclick="filterArtikel()"> (26f) Paranuss
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26g" class="itemkennz" onclick="filterArtikel()"> (26g) Pistazie
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-26h" class="itemkennz" onclick="filterArtikel()"> (26h) Macadamia
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-27" class="itemkennz" onclick="filterArtikel()"> (27) Sellerie
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-28" class="itemkennz" onclick="filterArtikel()"> (28) Soja
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-29" class="itemkennz" onclick="filterArtikel()"> (29) Senf
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-30" class="itemkennz" onclick="filterArtikel()">
+                                        <span style='cursor:pointer' title='(30) Milch und Milchprodukte (inkl. Laktose)'>(30) Milch und Milchprodukte ...</span>
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-31" class="itemkennz" onclick="filterArtikel()"> (31) Sesam
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-32" class="itemkennz" onclick="filterArtikel()"> (32) Schwefeldioxid und Sulfide
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-33" class="itemkennz" onclick="filterArtikel()"> (33) Lupine
+
+                                    </div>
+                                </div>
+                                <div class="row row-top-percent-1">
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-34" class="itemkennz" onclick="filterArtikel()"> (34) Weichtiere
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-35" class="itemkennz" onclick="filterArtikel()"> (35) Nitritpökelsalz
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" id="stoff-36" class="itemkennz" onclick="filterArtikel()"> (36) Hefe
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid splGroupWrapper">
+                            <div class="row">
+                                <div class="col-md-12 splGroup">Salate</div>
+                            </div>
+                            <div class="row splMeal" lang="13,27">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Doppelte Salatschale </span>
+                                    <div class="kennz ptr toolt">
+            (13, 27)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 2,95/5,90/6,50
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="13,27">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Große Salatschale </span>
+                                    <div class="kennz ptr toolt">
+            (13, 27)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 1,65/3,30/3,65
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="13,27">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Kleine Salatschale </span>
+                                    <div class="kennz ptr toolt">
+            (13, 27)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,60/1,20/1,30
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="29">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Sauce Vinaigrette </span>
+                                    <div class="kennz ptr toolt">
+            (29)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>29</td>
+                                                <td>Senf</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="13,23,27,29,30,21a">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">American Dressing </span>
+                                    <div class="kennz ptr toolt">
+            (13, 23, 27, 29, 30, 21a)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>23</td>
+                                                <td>Eier</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>29</td>
+                                                <td>Senf</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>21a</td>
+                                                <td>Weizen</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="7,23,27,29,30,32,21a">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Joghurtdressing </span>
+                                    <div class="kennz ptr toolt">
+            (7, 23, 27, 29, 30, 32, 21a)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>7</td>
+                                                <td>Antioxidationsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>23</td>
+                                                <td>Eier</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>29</td>
+                                                <td>Senf</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>32</td>
+                                                <td>Schwefeldioxid und Sulfide</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>21a</td>
+                                                <td>Weizen</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        
+    </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid splGroupWrapper">
+                            <div class="row">
+                                <div class="col-md-12 splGroup">Suppen</div>
+                            </div>
+                            <div class="row splMeal" lang="7,23,27,30,36,21a">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Hühnerbrühe mit Reis </span>
+                                    <div class="kennz ptr toolt">
+            (7, 23, 27, 30, 36, 21a)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>7</td>
+                                                <td>Antioxidationsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>23</td>
+                                                <td>Eier</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>36</td>
+                                                <td>Hefe</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>21a</td>
+                                                <td>Weizen</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,55/1,10/1,20
+    </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid splGroupWrapper">
+                            <div class="row">
+                                <div class="col-md-12 splGroup">Essen</div>
+                            </div>
+                            <div class="row splMeal" lang="7,30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/18.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">3 Gebackene Kartoffeltaschen mit Frischkäsefüllung an Kräuter-Joghurt-Dip</span>
+                                    <div class="kennz ptr toolt">
+            (7, 30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>7</td>
+                                                <td>Antioxidationsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 2,75/5,50/6,05
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="7,30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Jung-Schafsgeschnetzeltes in Curry-Gemüse-Sauce</span>
+                                    <div class="kennz ptr toolt">
+            (7, 30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>7</td>
+                                                <td>Antioxidationsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 2,45/4,90/5,40
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="32">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Ungarisches Kartoffelgulasch mit buntem Gemüse</span>
+                                    <div class="kennz ptr toolt">
+            (32)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>32</td>
+                                                <td>Schwefeldioxid und Sulfide</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 1,75/3,50/3,85
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="13,23,27,29,30,36,21a">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/38.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Ein gebackenes Seelachsfilet an Tatarensauce</span>
+                                    <div class="kennz ptr toolt">
+            (13, 23, 27, 29, 30, 36, 21a)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>23</td>
+                                                <td>Eier</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>29</td>
+                                                <td>Senf</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>36</td>
+                                                <td>Hefe</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>21a</td>
+                                                <td>Weizen</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 1,45/2,90/3,20
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="2,6,7,30,35">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Deftige Krautsuppe mit Schweinefleisch </span>
+                                    <div class="kennz ptr toolt">
+            (2, 6, 7, 30, 35)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>2</td>
+                                                <td>Schweinefleisch bzw. mit Gelatine vom Schwein</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>6</td>
+                                                <td>konserviert</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>7</td>
+                                                <td>Antioxidationsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>35</td>
+                                                <td>Nitritpökelsalz</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 1,35/2,70/2,95
+    </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid splGroupWrapper">
+                            <div class="row">
+                                <div class="col-md-12 splGroup">Beilagen</div>
+                            </div>
+                            <div class="row splMeal" lang="32">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Rotkohl mit Johannisbeeren </span>
+                                    <div class="kennz ptr toolt">
+            (32)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>32</td>
+                                                <td>Schwefeldioxid und Sulfide</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,55/1,10/1,20
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Buntes Gemüse </span>
+                                    <div class="kennz ptr toolt">
+                                        <table class='table-condensed tooltip_content'></table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,55/1,10/1,20
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/18.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Kartoffeln </span>
+                                    <div class="kennz ptr toolt">
+                                        <table class='table-condensed tooltip_content'></table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,70/1,40/1,55
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Reis </span>
+                                    <div class="kennz ptr toolt">
+                                        <table class='table-condensed tooltip_content'></table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,55/1,10/1,20
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/18.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Kräuter-Joghurt-Dip </span>
+                                    <div class="kennz ptr toolt">
+            (30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,30/0,60/0,65
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="13,23,27,29,30,21a">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Tatarensauce </span>
+                                    <div class="kennz ptr toolt">
+            (13, 23, 27, 29, 30, 21a)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>13</td>
+                                                <td>Süßungsmittel</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>23</td>
+                                                <td>Eier</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>27</td>
+                                                <td>Sellerie</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>29</td>
+                                                <td>Senf</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>21a</td>
+                                                <td>Weizen</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,25/0,50/0,55
+    </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid splGroupWrapper">
+                            <div class="row">
+                                <div class="col-md-12 splGroup">Desserts</div>
+                            </div>
+                            <div class="row splMeal" lang="30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Bananenquark mit Honig </span>
+                                    <div class="kennz ptr toolt">
+            (30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,60/1,20/1,30
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Mandarinenjoghurt </span>
+                                    <div class="kennz ptr toolt">
+            (30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,60/1,20/1,30
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="16,30">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Cappuccinopudding </span>
+                                    <div class="kennz ptr toolt">
+            (16, 30)
+            
+                                        <table class='table-condensed tooltip_content'>
+                                            <tr>
+                                                <td class='text-right'>16</td>
+                                                <td>koffeinhaltig</td>
+                                            </tr>
+                                            <tr>
+                                                <td class='text-right'>30</td>
+                                                <td>Milch und Milchprodukte (inkl. Laktose)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,60/1,20/1,30
+    </div>
+                            </div>
+                            <div class="row splMeal" lang="">
+                                <div class="col-xs-12 col-md-3">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <span class="bold">Aprikosenkompott </span>
+                                    <div class="kennz ptr toolt">
+                                        <table class='table-condensed tooltip_content'></table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-3 text-right">
+        &euro; 0,55/1,10/1,20
+    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="legende">
+                        <button class="accordion">
+                            <h4>Kennzeichnungspflichtige Zusatzstoffe</h4>
+                        </button>
+                        <div class="panel container-fluid">
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">2</div>
+                                <div class="col-xs-10">Schweinefleisch bzw. mit Gelatine vom Schwein</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">3</div>
+                                <div class="col-xs-10">Alkohol</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">4</div>
+                                <div class="col-xs-10">Geschmacksverstärker</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">5</div>
+                                <div class="col-xs-10">gewachst</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">6</div>
+                                <div class="col-xs-10">konserviert</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">7</div>
+                                <div class="col-xs-10">Antioxidationsmittel</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">8</div>
+                                <div class="col-xs-10">Farbstoff</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">9</div>
+                                <div class="col-xs-10">Phosphat</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">10</div>
+                                <div class="col-xs-10">geschwärzt</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">12</div>
+                                <div class="col-xs-10">enthält eine Phenylalaninquelle</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">13</div>
+                                <div class="col-xs-10">Süßungsmittel</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">14</div>
+                                <div class="col-xs-10">mit zum Teil fein zerkleinertem Fleischanteil</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">16</div>
+                                <div class="col-xs-10">koffeinhaltig</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">17</div>
+                                <div class="col-xs-10">chininhaltig</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">19</div>
+                                <div class="col-xs-10">geschwefelt</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">20</div>
+                                <div class="col-xs-10">kann abführend wirken</div>
+                            </div>
+                            <p>&nbsp;</p>
+                        </div>
+                        <button class="accordion">
+                            <h4>Allergene</h4>
+                        </button>
+                        <div class="panel container-fluid">
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21</div>
+                                <div class="col-xs-10">Glutenhaltiges Getreide</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21a</div>
+                                <div class="col-xs-10">Weizen</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21b</div>
+                                <div class="col-xs-10">Roggen</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21c</div>
+                                <div class="col-xs-10">Gerste</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21d</div>
+                                <div class="col-xs-10">Hafer</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21e</div>
+                                <div class="col-xs-10">Dinkel</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">21f</div>
+                                <div class="col-xs-10">Kamut</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">22</div>
+                                <div class="col-xs-10">Krebstiere</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">23</div>
+                                <div class="col-xs-10">Eier</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">24</div>
+                                <div class="col-xs-10">Fisch</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">25</div>
+                                <div class="col-xs-10">Erdnüsse</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26</div>
+                                <div class="col-xs-10">Schalenfrüchte</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26a</div>
+                                <div class="col-xs-10">Mandeln</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26b</div>
+                                <div class="col-xs-10">Haselnuss</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26c</div>
+                                <div class="col-xs-10">Walnuss</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26d</div>
+                                <div class="col-xs-10">Kaschunuss</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26e</div>
+                                <div class="col-xs-10">Pacannuss</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26f</div>
+                                <div class="col-xs-10">Paranuss</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26g</div>
+                                <div class="col-xs-10">Pistazie</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">26h</div>
+                                <div class="col-xs-10">Macadamia</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">27</div>
+                                <div class="col-xs-10">Sellerie</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">28</div>
+                                <div class="col-xs-10">Soja</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">29</div>
+                                <div class="col-xs-10">Senf</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">30</div>
+                                <div class="col-xs-10">Milch und Milchprodukte (inkl. Laktose)</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">31</div>
+                                <div class="col-xs-10">Sesam</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">32</div>
+                                <div class="col-xs-10">Schwefeldioxid und Sulfide</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">33</div>
+                                <div class="col-xs-10">Lupine</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">34</div>
+                                <div class="col-xs-10">Weichtiere</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">35</div>
+                                <div class="col-xs-10">Nitritpökelsalz</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">36</div>
+                                <div class="col-xs-10">Hefe</div>
+                            </div>
+                            <p>&nbsp;</p>
+                        </div>
+                        <button class="accordion">
+                            <h4>Piktogramme</h4>
+                        </button>
+                        <div class="panel container-fluid">
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gruen_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Die beste Wahl! Je öfter, desto besser!</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_gelb_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Eine gute Wahl! Immer mal wieder.</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/ampel_rot_70x65.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Eher selten! Am Besten mit Gr&uuml;n kombinieren.</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/15.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Gerichte werden ausschlie&szlig;lich aus veganen Rohstoffen zubereitet.</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/43.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Klimaessen</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/1.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Gerichte werden ohne Fisch- und Fleischzutaten zubereitet.</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/18.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Unsere Biogerichte werden kontrolliert durch DE - &Ouml;KO - 070.</div>
+                            </div>
+                            <div class="row row-top-percent-1">
+                                <div class="col-xs-1">
+                                    <img src='/vendor/infomax/mensen/icons/38.png' class='splIcon'>
+    
+                                </div>
+                                <div class="col-xs-10">Marine Stewardship Council Zertifierungsnummer: MSC-C-52018</div>
+                            </div>
+                            <p>&nbsp;</p>
+                        </div>
+                        <div class='container-fluid'>
+                            <br>Wir verwenden bei der Herstellung unserer Speisen jodiertes Speisesalz.
+    
+                            <br>Mit der EU-Verordnung Nr. 1169/2011 sind ab dem 13.12.2014 neben zugelassenen Zusatzstoffen auch Allergie- und Intoleranz auslösende Lebensmittel sowie Inhaltsstoffe zu kennzeichnen.
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <div class="abstand hidden-lg"></div>
+    <section class="col-lg-4">
+        <div class="section-balken" style="background-color:#00a276"></div>
+        <div class="gray">
+            <div class="onepager_anchor" id="jump_standort">Standorte</div>
+            <h1 class="heading">Standort</h1>
+            <article class="col-sm-12">
+                <div class="white-box">
+                    <div>
+                        <img src="/assets/images/spacer.gif" data-width="840" origsrc="/assets/components/phpthumbof/cache/front_mensa_htw_treskowallee.jpg.7f636bba3f11f21a31f1cf7d0f0405ce.jpg" class="img-responsive">
+
+                    </div>
+                    <p>
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                            </div>
+                            <div class="col-xs-10">
+        Treskowallee 8
+                                <br>
+                                <small></small>
+        10318 Berlin
+                                <small>(Lichtenberg)</small>
+                            </div>
+                        </div>
+                        <div class="row row-top-percent-2">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </div>
+                            <div class="col-xs-10">
+                                <a href="mailto:mensen@stw.berlin">mensen@stw.berlin</a>
+                            </div>
+                        </div>
+                        <div class="row row-top-percent-2">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            </div>
+                            <div class="col-xs-10">
+        030 93939 - 7550
+    </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row row-top-percent-2">
+                            <div class="col-xs-1">
+                                <i id="favoriteMensaStar" class="glyphicon glyphicon-star-empty"></i>
+                            </div>
+                            <div id="favoriteMensa" class="col-xs-10 ptr" onclick="mensaFavorite(320, '
+                                <h2>Prima!</h2>
+                                <p>Die Mensa ist als Favorit gesetzt!</p>', 'Diese Mensa ist Ihr Favorit')" title="Klicken, um diese Mensa per Cookie als Ihren Favoriten zu setzen, der dann jeweils bei Aufruf der Mensenseite geladen wird.">
+        Mensa als Favoriten setzen
+                            </div>
+                        </div>
+                        <div class="row row-top-percent-2">
+                            <div class="col-xs-1 toClipboard ptr" data-clipboard-target="#directlink">
+                                <i class="glyphicon glyphicon-bookmark"></i>
+                            </div>
+                            <div class="col-xs-10 toClipboard ptr" data-clipboard-target="#directlink" title="Klicken, um die Internetadresse für den Direktaufruf dieser Mensa in Ihren Zwischenspeicher zu kopieren.">
+        Mehrere Favoriten? Hier den Direktlink für Lesezeichen kopieren
+    </div>
+                        </div>
+                        <div class="row" style="font-size:9px; color:#585858">
+                            <div class="col-xs-1">&nbsp;</div>
+                            <div id="directlink" class="col-xs-10">https://www.stw.berlin/mensen/mensa-htw-treskowallee.html</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-time"></i>
+                            </div>
+                            <div class="col-xs-10">
+        Öffnungszeiten
+    </div>
+                        </div>
+                        <div class="row row-top-percent-1">
+                            <div class="col-xs-1">
+        &nbsp;
+    </div>
+                            <div class="col-xs-10">
+                                <strong>Mo. &ndash; Fr.</strong>
+                                <br>
+        Cafeteria ("Kleine Mensa") 08:00 - 14:30 Uhr 
+                                <br>
+    
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-xs-1">
+        &nbsp;
+    </div>
+                            <div class="col-xs-10">
+        Mittagstisch 11:00 - 14:30 Uhr
+    </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-transfer"></i>
+                            </div>
+                            <div class="col-xs-10">
+                                <strong>TRAM 21, 27, 37, 62, 63, 67, 68, M17</strong> (Treskowallee / HTW) oder
+                                <strong>BUS 296</strong> (Treskowallee / HTW)
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row row-top-percent-1">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-education"></i>
+                            </div>
+                            <div class="col-xs-10">
+        HTW: 1 m
+    </div>
+                        </div>
+                    </p>
+                    <h3>Google Map</h3>
+                    <div id="map-400"></div>
+                    <script>
+	function initMap() {
+		var uluru = {lat: 52.4930756, lng: 13.5256823};
+		var map = new google.maps.Map(document.getElementById('map-400'), {
+			zoom: 16,
+			center: uluru
+		});
+		var marker = new google.maps.Marker({
+			position: uluru,
+			map: map
+		});
+	}
+	function loadScript() {
+		try {
+			if (google) {
+				initMap();
+				return;
+			}
+		} catch (e) {
+			var script = document.createElement('script');
+			script.setAttribute('async','async');
+			script.setAttribute('defer','defer');
+			script.type = 'text/javascript';
+			script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDAGsC9Wi0306CsC8Lr0cz5D4wpcFzTNf8&callback=initMap';
+			document.body.appendChild(script);
+		}
+	}
+	loadScript();
+</script>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+<div class="abstand"></div>
+<div class="row">
+    <section class="col-lg-12">
+        <div class="section-balken" style="background-color:#00a276"></div>
+        <div class="graybox">
+            <div class="abstand" style="clear:both"></div>
+            <h1>Fotogalerie</h1>
+            <article class="col-sm-12">
+                <div class="white-box container-fluid">
+                    <div class="row row-top-percent-1">
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1769_Ausgabe2.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Ausgabe mit vielseitigem Angebot " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1769_Ausgabe2.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Ausgabe mit vielseitigem Angebot">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1764_Angebot1.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot an der Salattheke " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1764_Angebot1.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot an der Salattheke">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1773_Angebot2.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot: Obst und Süßgebäck " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1773_Angebot2.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot: Obst und Süßgebäck">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1765_Angebot4.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot: Desserts " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1765_Angebot4.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot: Desserts">
+    
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row row-top-percent-1">
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1768_Angebot5.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot: Herzhaftes " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1768_Angebot5.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot: Herzhaftes">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1767_Ausgabe1.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Ausgabe (1) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1767_Ausgabe1.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Ausgabe (1)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1766_Angebot7.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot: Muffins " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1766_Angebot7.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot: Muffins">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1763_Angebot9.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Angebot: Himbeerjoghurt " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1763_Angebot9.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Angebot: Himbeerjoghurt">
+    
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row row-top-percent-1">
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1778_Ausgabe6.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Ausgabe (2) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1778_Ausgabe6.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Ausgabe (2)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1770_Ausgabe7.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Ausgabe (3) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1770_Ausgabe7.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Ausgabe (3)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1771_Speiseraum1.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="HTW Mensa Treskowallee: Speiseraum (1) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1771_Speiseraum1.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="HTW Mensa Treskowallee: Speiseraum (1)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1772_Speiseraum3.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="HTW Mensa Treskowallee: Speiseraum (2) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1772_Speiseraum3.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="HTW Mensa Treskowallee: Speiseraum (2)">
+    
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row row-top-percent-1">
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1774_Speiseraum6.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="HTW Mensa Treskowallee: Speiseraum (3) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1774_Speiseraum6.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="HTW Mensa Treskowallee: Speiseraum (3)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1775_Speisesaal2.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="HTW Mensa Treskowallee: Speiseraum (4) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1775_Speisesaal2.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="HTW Mensa Treskowallee: Speiseraum (4)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1777_Speisesaal3.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="HTW Mensa Treskowallee: Speiseraum (5) " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1777_Speisesaal3.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="HTW Mensa Treskowallee: Speiseraum (5)">
+    
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3" style="margin-top:4px">
+                            <a href="/assets/components/phpthumbof/cache/1776_Eingang.6af1287f2d22c0705fa4d4dc76e897f2.jpg" data-caption="Eingang zur Mensa " data-fancybox="images" rel="gallery-612">
+                                <img class="img-responsive" src="/assets/images/spacer.gif" data-width="240" origsrc="/assets/components/phpthumbof/cache/klein_1776_Eingang.ae53f3d0c59aa8add04b1f4a7de1f8ec.jpg" alt="Eingang zur Mensa">
+    
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <div class="abstand" style="clear:both"></div>
+            <h1>Mensa HTW Treskowallee</h1>
+            <article class="col-sm-12">
+                <div class="white-box">
+                    <p>
+                        <strong>Willkommen bei uns!</strong>
+                    </p>
+                    <p>Unsere Mensa befindet sich auf dem Campus der Hochschule für Technik und Wirtschaft in Berlin-Lichtenberg. Der Speisesaal zählt zu einer der architektonisch interessantesten Räumlichkeiten des Campus. Der Tradition des Ortes bewusst, gehen unsere Mitarbeiterinnen und Mitarbeiter vom 
+                        <strong>studierendenWERK BERLIN</strong> jeden Tag mit viel Elan und Engagement an die Herstellung eines reichhaltigen, wechselnden Angebotes an Fleisch-, Fisch- und Gemüsegerichten. Besonders die leichten, kalorienreduzierten und geschmacklich gut aufeinander abgestimmten Speisen stehen im Mittelpunkt unseres Könnens. Unser tägliches Highlight ist das Bio-Essen, hergestellt aus Produkten kontrolliert landwirtschaftlichen Anbaus sowie artgerechter Tierhaltung. Jeden Tag bieten wir neben diversen Vorspeisen und Desserts frische Salate, Milchmixgetränke und als besonderes Extra einen täglich selbstgebackenen Kuchen.
+                    </p>
+                    <p>
+                        <strong>"Kleine Mensa"</strong>
+                    </p>
+                    <p>Die Cafeteria  im Untergeschoss der Mensa HTW Treskowallee ist auch als "kleine Mensa" bekannt. Sollten Sie wider Erwarten "oben" nichts Passendes gefunden oder vielleicht keinen freien Platz bekommen haben, wird der Besuch in unserer "kleinen Mensa" im unteren Geschoss Sie für Ihre Geduld belohnen. Hier bieten wir nicht nur zur Mittagszeit neben knackigen Salaten ein reichhaltiges Bistroangebot an belegten Brötchen, Baguettes, Croissants, Salaten, Desserts, Kuchen, Warm- und Kaltgetränken sowie Süßigkeiten.</p>
+                    <p>
+                        <strong>Guten Appetit!</strong>
+                        <strong>
+                            <br />
+                        </strong>
+                        <em>Das Team der Mensa </em>
+                    </p>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>

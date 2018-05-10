@@ -1,0 +1,10 @@
+{
+	"expr": {
+		"times": [
+			{"const": 1},
+			{"plus": [
+				{"const": 2},
+				{"const": 3}
+			]}
+		]}
+}

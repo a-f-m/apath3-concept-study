@@ -1,0 +1,81 @@
+>> <codesystem> 
+ <extension url="ext:groupName"> 
+  <valuestring value="EXA" /> 
+ </extension> 
+ <extension url="ext:resourceId"> 
+  <valuestring value="classif-1" /> 
+ </extension> 
+ <extension url="ext:language"> 
+  <!-- IETF language tag (RFC 5646) restricted to 2-letter tags; so far 
+				not checked; only relevant when 'defining' a code system --> 
+  <valuecode value="de" /> 
+ </extension> 
+ <!-- URI to identify the code system (an OID of form 'urn:oid:1.2.3' or 
+			a general URI): --> 
+ <system value="http://test/vs/classif-1" /> 
+ <version value="2016-01-01" /> 
+ <concept> 
+  <code value="1"></code> 
+  <concept> 
+   <code value="2"></code> 
+   <display value="aa bb cc" /> 
+   <designation> 
+    <value value="aa" /> 
+   </designation> 
+  </concept> 
+  <concept> 
+   <code value="3"></code> 
+   <display value="dd ee ff" /> 
+  </concept> 
+ </concept> 
+</codesystem>
+>> <extension url="ext:groupName"> 
+ <valuestring value="EXA" /> 
+</extension>
+>> <valuestring value="EXA" />
+>> <extension url="ext:resourceId"> 
+ <valuestring value="classif-1" /> 
+</extension>
+>> <valuestring value="classif-1" />
+>> <extension url="ext:language"> 
+ <!-- IETF language tag (RFC 5646) restricted to 2-letter tags; so far 
+				not checked; only relevant when 'defining' a code system --> 
+ <valuecode value="de" /> 
+</extension>
+>> <valuecode value="de" />
+>> <system value="http://test/vs/classif-1" />
+>> <version value="2016-01-01" />
+>> <concept> 
+ <code value="1"></code> 
+ <concept> 
+  <code value="2"></code> 
+  <display value="aa bb cc" /> 
+  <designation> 
+   <value value="aa" /> 
+  </designation> 
+ </concept> 
+ <concept> 
+  <code value="3"></code> 
+  <display value="dd ee ff" /> 
+ </concept> 
+</concept>
+>> <code value="1"></code>
+>> <concept> 
+ <code value="2"></code> 
+ <display value="aa bb cc" /> 
+ <designation> 
+  <value value="aa" /> 
+ </designation> 
+</concept>
+>> <code value="2"></code>
+>> <display value="aa bb cc" />
+>> <designation> 
+ <value value="aa" /> 
+</designation>
+>> <value value="aa" />
+>> <concept> 
+ <code value="3"></code> 
+ <display value="dd ee ff" /> 
+</concept>
+>> <code value="3"></code>
+>> <display value="dd ee ff" />

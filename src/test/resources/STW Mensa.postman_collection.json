@@ -1,0 +1,54 @@
+{
+	"info": {
+		"name": "STW Mensa",
+		"_postman_id": "b27a8e1c-c53d-67c2-d9dd-17e70c0e7123",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://www.stw.berlin/xhr/speiseplan-und-standortdaten.html",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resources_id",
+							"value": "320",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2018-04-20",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://www.stw.berlin/xhr/speiseplan-und-standortdaten.html",
+					"protocol": "https",
+					"host": [
+						"www",
+						"stw",
+						"berlin"
+					],
+					"path": [
+						"xhr",
+						"speiseplan-und-standortdaten.html"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

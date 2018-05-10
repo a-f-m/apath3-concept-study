@@ -1,0 +1,1 @@
+ Map(c1 -> Some(Node(1,const,false,None,0)), c2 -> Some(Node(2,const,false,None,0))) Map(c1 -> Some(Node(1,const,false,None,0)), c2 -> Some(Node(3,const,false,None,0)), ca -> Some(Node(double,cast,false,None,0))) Map(c1 -> Some(Node(3,const,false,None,0)), c2 -> Some(Node(4,const,false,None,0)), ca -> None)

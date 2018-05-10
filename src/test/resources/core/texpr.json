@@ -1,0 +1,19 @@
+{
+	"expr": {
+        "plus": [
+            {"times": [
+               {"const": 1},
+               {"const": 2}
+            ]},
+            {"times": [
+                {"const": 1},
+                {"const": 3},
+                {"cast": "double"}
+            ]},
+            {"times": [
+                {"const": 3},
+                {"const": 4}
+            ]}
+        ]
+    }
+}

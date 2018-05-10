@@ -1,0 +1,1 @@
+Node({"bicycle":{"color":"red","price":19.95},"book":[{"author":"Nigel Rees","price":8.95,"onStock":true,"category":"reference","title":"Sayings of the Century"},{"author":"Evelyn Waugh","price":12,"onStock":false,"category":"fiction","title":"Sword of Honour"},[1,2,3]]},store,false,None,0)
