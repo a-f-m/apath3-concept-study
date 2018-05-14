@@ -28,7 +28,7 @@ class XmlAcc extends Accessor {
     e match {
       case Property(name, isAttribute, _) => o match {
         case elm: Elem => nameRes(elm, name, isAttribute)
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case ArraySubscript(_) => //
         throw new RuntimeException(s"no array subscript allowed, use sequence subscript (object: '${
@@ -36,12 +36,12 @@ class XmlAcc extends Accessor {
         }')")
       case Children() => o match {
         case elm: Elem => new XmlNodeIter((elm \ "_").iterator)
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case Text() => o match {
         case elm: Elem => iterO(elm.text, "")
         case s: String => iterO(s, "")
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case _ => new DelegatedIter()
     }
@@ -57,9 +57,10 @@ class XmlAcc extends Accessor {
   }
 
 
-  override def parse(xml: String) = wrap(scala.xml.XML.loadString(xml))
+  override def parse[T](xml: String)  = wrap(scala.xml.XML.loadString(xml)).asInstanceOf[T]
 
-  override def parse(in: InputStream) = wrap(scala.xml.XML.load(in))
+  override def parse[T](in: InputStream) = wrap(scala.xml.XML.load(in)).asInstanceOf[T]
 
-  private def wrap(elem: Elem) = new Elem(elem.prefix, "_root", elem.attributes, elem.scope, elem.minimizeEmpty, elem)
+  private def wrap(elem: Elem): Elem = new Elem(elem.prefix, "_root", elem.attributes, elem.scope, elem.minimizeEmpty,
+                                                elem)
 }

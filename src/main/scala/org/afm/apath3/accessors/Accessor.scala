@@ -67,12 +67,12 @@ class Accessor {
   }
 
 
-  def parse(xml: String): Any = {
+  def parse[T](s: String): T = {
 
     throw new RuntimeException("to be overridden")
   }
 
-  def parse(in: InputStream): Any = {
+  def parse[T](in: InputStream): T = {
 
     throw new RuntimeException("to be overridden")
   }

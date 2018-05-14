@@ -53,7 +53,7 @@ class JsoupAcc extends Accessor {
     }
   }
 
-  override def parse(expr: String): Any = Jsoup.parse(expr)
+  override def parse[T](expr: String): T = Jsoup.parse(expr).asInstanceOf[T]
 
-  override def parse(in: InputStream): Any = Jsoup.parse(in, "utf-8", "")
+  override def parse[T](in: InputStream): T = Jsoup.parse(in, "utf-8", "").asInstanceOf[T]
 }

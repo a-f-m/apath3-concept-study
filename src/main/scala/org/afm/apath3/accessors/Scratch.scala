@@ -65,7 +65,7 @@ object Scatch {
 
     val acc = new XmlAcc()
 
-    val elem = acc.parse("<root a='lala'> <a></a> <b></b>  <b></b>  </root>")
+    val elem:Elem = acc.parse("<root a='lala'> <a></a> <b></b>  <b></b>  </root>")
     println(elem)
 
     val seq = elem \ "root" \ "@a"
@@ -75,5 +75,18 @@ object Scatch {
 
     val maybeNodes = a.attribute("a")
     println(maybeNodes.get.toString())
+
+
+    val matcher = "(.*)-(.*)-(.*)".r.pattern.matcher("33-55-66")
+    if (matcher.matches()) //
+      for (i <- 1 to matcher.groupCount()) {
+        println(matcher.group(i))
+      }
+    println(matcher.groupCount())
+
+    for (i <- 0 to 0) println("lal")
+
+    val maybeMatch = "\\d(\\d)?\\.(.*)".r.findFirstMatchIn("8.95")
+    println(maybeMatch)
   }
 }

@@ -15,13 +15,38 @@ case class Apath(config: Config) {
 
   val pp = new PathParser()
 
-  def get[T](o: Any, expr: String, d: T = null): T = {
+  /**
+    * The first match. If d == null a match has to occur.
+    *
+    * @param o input object
+    * @param expr apath expression
+    * @param d default if no match
+    * @tparam T type of the matched object
+    * @return matched object
+    */
+  def get[T](o: Any, expr: String, d: T): T = {
 
     val first = doMatch(o, expr).first
     if (first.isDefined) first.get.curr.asInstanceOf[T] //<
     else if (d == null) throw new RuntimeException("no match and no default given") else d //>
   }
 
+  /**
+    * equivalent to [[org.afm.apath3.core.Apath#get(java.lang.Object, java.lang.String, T)]] apply (_, _, null)
+    */
+  // Rem.: no scala parameter default when usage from java; we use 'null' for "emptiness"
+  def get[T](o: Any, expr: String): T = {
+    get(o, expr, null.asInstanceOf[T])
+  }
+
+  /**
+    * Iterates over matches.
+    *
+    * @param o input object
+    * @param expr apath expression
+    * @param f consumption of the context for each match
+    * @return a match occurred
+    */
   def doMatch(o: Any, expr: String, f: Context => Unit): Boolean = {
 
     val it = doMatch(o, expr).iterator
@@ -34,19 +59,18 @@ case class Apath(config: Config) {
   }
 
   /**
+    * Iterator over the matches.
     *
-    * @param obj
-    * @param expr
-    * @return
+    * @param o input object
+    * @param expr apath expression
+    * @return iterator over the match-contexts
     */
-  def doMatch(obj: Any, expr: String): Iterable[Context] = doMatchCtx(obj, expr)
+  def doMatch(o: Any, expr: String): Iterable[Context] = {
 
-  private def doMatchCtx(obj: Any, expr: String) = {
-
-    config.acc.checkObjectAllowed(obj)
+    config.acc.checkObjectAllowed(o)
 
     val ctx = new Context()
-    val it = pp.parse(expr).eval(Node(obj, "", config.acc.isArrayFunc.get.apply()), ctx, config)
+    val it = pp.parse(expr).eval(Node(o, "", config.acc.isArrayFunc.get.apply()), ctx, config)
     new Iterable[Context] {
       override def iterator = new Iterator[Context] {
         override def hasNext = it.hasNext
@@ -55,27 +79,39 @@ case class Apath(config: Config) {
     }
   }
 
+  /**
+    *
+    * @param expr apath expression
+    * @return equivalent adt-expression
+    */
   def parse(expr: String): Expr = {
 
     pp.parse(expr)
   }
 
   ////// for java usage
-  // Rem.: in fact we could name it 'doMatch' because parameter polymorphism but we do it uniformly
-  def jDoMatch(o: Any, expr: String, f: java.util.function.Consumer[Context]): Boolean = doMatch(o, expr, f)
-  def jDoMatch(o: Any, expr: String): java.lang.Iterable[Context] = doMatchCtx(o, expr).asJava
-  def jget[T](o: Any, expr: String): T = jget[T](o, expr, AnyRef.asInstanceOf[T])
-  def jget[T](o: Any, expr: String, d: T): T = get[T](o, expr, d)
+  /**
+    * see [[org.afm.apath3.core.Apath#doMatch(java.lang.Object, java.lang.String, Context => Unit)]]
+    */
+  def doMatch(o: Any, expr: String, f: java.util.function.Consumer[Context]): Boolean = doMatch(o, expr, x => {f.accept(x)})
+
+  /**
+    * see [[org.afm.apath3.core.Apath#doMatch(java.lang.Object, java.lang.String)]]
+    */
+  // Rem.: 'j..'-func for java-usage because scala do not have return-type-polymorphism (as in Haskell)
+  def jDoMatch(o: Any, expr: String): java.lang.Iterable[Context] = doMatch(o, expr).asJava
 }
 
 object Apath {
 
   var globalLoggingMatches: Boolean = false
   var globalLoggingNonMatches: Boolean = false
+  var globalLoggingSolutions: Boolean = false
   var loggText: StringBuilder = new StringBuilder
 
-  def globalLoggingMatches_(v: Boolean) = globalLoggingMatches = v
-  def globalLoggingNonMatches_(v: Boolean) = globalLoggingNonMatches = v
+  def globalLoggingMatches_(v: Boolean): Unit = globalLoggingMatches = v
+  def globalLoggingNonMatches_(v: Boolean): Unit = globalLoggingNonMatches = v
+  def globalLoggingSolutions_(v: Boolean): Unit = globalLoggingSolutions = v
 
   def consumeLoggText(): String = {
 
@@ -95,26 +131,26 @@ object Apath {
 
   def loggSolution(node: Node) = {
 
-    if (globalLoggingMatches || globalLoggingNonMatches) loggText.append(s"! solution at (sub-)path end: ${
+    if (globalLoggingSolutions) loggText.append(s"! solution at (sub-)path end: ${
       StringUtils.abbreviate(node.obj.toString.replaceAll("\\s+", " "), 80)
     } [:${node.order}:]\n")
   }
 
   /**
-    *
-    * @param it
-    * @tparam A
-    * @return
+    * Gets the first of an iterator or None if it is empty
     */
   def first[A](it: Iterable[A]): Option[A] = if (it.iterator.hasNext) Some(it.iterator.next()) else None
+
+  // for java usage
+  /**
+    * Gets the first of an iterator or None if it is empty
+    */
+  def first[A](it: java.lang.Iterable[A]): Option[A] = first(it.asScala)
 
   implicit class IIter[A](it: Iterable[A]) {
 
     def first: Option[A] = Apath.first(it)
   }
 
-  implicit def convJConsumer[A](f: java.util.function.Consumer[A]): A => Unit = x => {f.accept(x)}
-
-  ////// for java usage
-  def jfirst[A](it: java.lang.Iterable[A]): Option[A] = first(it.asScala)
+//  implicit def convJConsumer[A](f: java.util.function.Consumer[A]): A => Unit = x => {f.accept(x)}
 }

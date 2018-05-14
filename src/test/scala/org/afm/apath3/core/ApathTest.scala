@@ -1,53 +1,59 @@
 package org.afm.apath3.core
 
-import java.io.FileReader
+import java.io.{FileInputStream, FileReader}
 
 import net.minidev.json.{JSONObject, JSONValue}
 import org.afm.apath3.accessors.JsonSmartAcc
 import org.afm.apath3.core.Apath._
 import org.afm.util.Testing
+import org.afm.util.Testing.IString
 import org.junit.Assert._
 import org.junit.Test
 //import ApathUtil.IIter._
-
-
-
 class ApathTest {
 
-  val jo = JSONValue.parse(new FileReader("src/test/resources/core/books.json")).asInstanceOf[JSONObject]
+  // scratch, no full test
+  @Test def test1(): Unit = {
 
-  @Test def test(): Unit = {
+    // create the accessor to the underlying structure, here JsonSmart
+    val acc = new JsonSmartAcc()
+    // parse the input file
+    val jo: JSONObject = acc.parse(new FileInputStream("src/test/resources/samples/books.json"))
 
-    val ap = Apath(new Config(new JsonSmartAcc()))
+    // create apath
+    val ap = Apath(new Config(acc))
 
-    ap.doMatch(jo, "root.store.book.*?(price $p and title $t)").foreach(ctx => {
-
-      println(ctx v "t")
-
-      println(ctx.currNode)
-    })
-
-    println("---")
-
+    // match path on json object
     val success = ap.doMatch(jo, "root.store.book.*?(price $p and title $t)", (ctx: Context) => {
-
-      println(ctx.currNode)
+      // for each match
+      // access variable 'p'
+      println(ctx.v("t"))
+      // access the matched node
+      println(ctx.curr)
     })
 
     println(success)
 
     println("---")
 
-    var s: String = first(ap.doMatch(jo, "root.store.book.*?(price $p and title $t)")).get v "t"
-    assertEquals(Testing.expected(false, s, "0"), s)
+    // same as above but with via the standard iterator
+    ap.doMatch(jo, "root.store.book.*?(price $p and title $t)").foreach(ctx => {
+      // ...
+    })
 
-    val n: Node = ap.doMatch(jo, "root.store.book.*?(price $p and title $t)").first.get.currNode
-    assertEquals(Testing.expected(false, n.toString, "1"), n.toString)
+    println("---")
 
+    // get the first matched node
     val jo1: JSONObject = ap.get(jo, "root.store.book.*?(price $p and title $t)")
-    assertEquals(Testing.expected(false, jo1.toString, "2"), jo1.toString)
+    assertEquals(Testing.expected(false, jo1.toString, "0"), jo1.toString.cr())
 
-    s = ap.get(jo, "root.store.book.*?(price $p and titlexxx $t)", "def")
-    assertEquals(Testing.expected(false, s, "3"), s)
+    // get the first matched node or the default if no match occurred
+    var s: String = ap.get(jo, "root.store.book.*.titlexxx", "def")
+    assertEquals(Testing.expected(false, s, "1"), s.cr())
+
+    // get the first binding of variable 't'
+    s = ap.doMatch(jo, "root.store.book.*?(price $p and title $t)").first.get v "t"
+    assertEquals(Testing.expected(false, s, "2"), s.cr())
+
   }
 }

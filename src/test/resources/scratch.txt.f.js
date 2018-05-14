@@ -17,3 +17,15 @@ aaa.bbb?($`x.~'.*lala')
 aaa.bbb.~(.*lala).ccc
 
 aaa.bbb.<.*lala>.ccc
+
+xxx.fff('sss', ^$x)
+
+xxx.(rmatch '...' -> aa )
+
+root.store.book[*].*
+    ?(onStock and selector() $s and $s.rmatch('#.\d+'))
+        .price
+
+root.store.book[*].*
+    ?(onStock and selector() $s and $s.rmatch('#.\d+'))
+        .price

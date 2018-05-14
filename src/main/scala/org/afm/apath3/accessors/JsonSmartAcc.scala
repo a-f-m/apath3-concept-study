@@ -1,6 +1,8 @@
 package org.afm.apath3.accessors
 
-import net.minidev.json.{JSONArray, JSONObject}
+import java.io.InputStream
+
+import net.minidev.json.{JSONArray, JSONObject, JSONValue}
 import org.afm.apath3.core._
 
 class JsonSmartAcc extends Accessor {
@@ -28,5 +30,9 @@ class JsonSmartAcc extends Accessor {
       case _ => new DelegatedIter()
     }
   })
+
+  override def parse[T](in: InputStream) = JSONValue.parse(in).asInstanceOf[T]
+
+  override def parse[T](s: String) = JSONValue.parse(s).asInstanceOf[T]
 
 }

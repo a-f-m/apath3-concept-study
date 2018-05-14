@@ -1,0 +1,101 @@
+<div class="row">
+    <section class="col-lg-8">
+        <div class="section-balken" style="background-color:#00a276"></div>
+        <div class="gray">
+            <div class="onepager_anchor" id="jump_speisepläne">Speisepläne</div>
+            <h1 class="heading">Speiseplan</h1>
+            <article class="col-sm-12">
+                <div class="white-box">
+                    <div class="container-fluid">
+                        <select id='listboxEinrichtungen' class="listboxStandorte" onchange='xhrLoad(0, "")'>
+                            <option value="534">Mensa ASH Berlin Hellersdorf</option>
+                            <option value="535">Mensa Beuth Hochschule für Technik Kurfürstenstraße</option>
+                            <option value="527">Mensa Beuth Hochschule für Technik Luxemburger Straße</option>
+                            <option value="537">Mensa Charité Zahnklinik</option>
+                            <option value="529">Mensa EHB Teltower Damm</option>
+                            <option value="271">Mensa FU Herrenhaus Düppel</option>
+                            <option value="322">Mensa FU II Otto-von-Simson-Straße</option>
+                            <option value="528">Mensa FU Lankwitz Malteserstraße</option>
+                            <option value="531">Mensa HfM Charlottenstraße</option>
+                            <option value="533">Mensa HfS Schnellerstraße</option>
+                            <option value="320"selected='selected'>Mensa HTW Treskowallee</option>
+                            <option value="319">Mensa HTW Wilhelminenhof</option>
+                            <option value="147">Mensa HU Nord</option>
+                            <option value="191">Mensa HU Oase Adlershof</option>
+                            <option value="367">Mensa HU Süd</option>
+                            <option value="270">Mensa HU Spandauer Straße</option>
+                            <option value="526">Mensa HWR Badensche Straße</option>
+                            <option value="532">Mensa Katholische HS für Sozialwesen</option>
+                            <option value="530">Mensa KHS Weißensee</option>
+                            <option value="321">Mensa TU Hardenbergstraße</option>
+                            <option value="323">Mensa Veggie № 1 - Die grüne Mensa</option>
+                            <option value="368">Cafeteria FU Ihnestraße</option>
+                            <option value="660">Cafeteria FU Koserstraße</option>
+                            <option value="542">Cafeteria FU Pharmazie</option>
+                            <option value="277">Cafeteria FU Rechtswissenschaft</option>
+                            <option value="543">Cafeteria FU Wirtschaftswissenschaften</option>
+                            <option value="659">Cafeteria HU „Jacob und Wilhelm Grimm Zentrum“</option>
+                            <option value="539">Cafeteria TU Ackerstraße</option>
+                            <option value="540">Cafeteria TU Architektur</option>
+                            <option value="657">Cafeteria TU „Skyline“</option>
+                            <option value="631">Cafeteria TU Hardenbergstraße</option>
+                            <option value="541">Cafeteria TU Hauptgebäude „Wetterleuchten“</option>
+                            <option value="538">Cafeteria TU Marchstraße</option>
+                            <option value="722">Cafeteria UdK „Jazz-Cafe“</option>
+                            <option value="658">Cafeteria UdK Lietzenburger Straße</option>
+                            <option value="647">Coffeebar Beuth Hochschule</option>
+                            <option value="648">Coffeebar Beuth Hochschule Haus Grashof</option>
+                            <option value="1407">Coffeebar EHB Teltower Damm</option>
+                            <option value="723">Coffeebar HfM „Neuer Marstall“</option>
+                            <option value="724">Coffeebar HfM Charlottenstraße</option>
+                            <option value="1651">Coffeebar HTW Treskowallee</option>
+                            <option value="725">Coffeebar HTW Wilhelminenhof</option>
+                            <option value="661">Coffeebar HU „c.t.“</option>
+                            <option value="721">Coffeebar HU Mensa Nord</option>
+                            <option value="720">Coffeebar HU Oase Adlershof</option>
+                            <option value="727">Coffeebar HWR Alt-Friedrichsfelde</option>
+                            <option value="728">Coffeebar HWR Badensche Straße</option>
+                            <option value="649">Coffeebar Mensa FU II</option>
+                            <option value="650">Coffeebar Mensa Lankwitz</option>
+                            <option value="632">Coffeebar TU Hardenbergstraße</option>
+                        </select>
+                    </div>
+                    <div class="back-to-overview" style="padding-left: 30px" onclick="backToOverview()">
+                        <a href="javascript:">Zurück zur Übersicht</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <div class="abstand hidden-lg"></div>
+    <section class="col-lg-4">
+        <div class="gray">
+            <div class="onepager_anchor" id="jump_standort">Standorte</div>
+            <h1 class="heading">Standort</h1>
+            <article class="col-sm-12">
+                <div class="white-box">
+                    <div>
+                        <img src="/assets/images/spacer.gif" data-width="840" origsrc="/assets/components/phpthumbof/cache/front_mensa_htw_treskowallee.jpg.7f636bba3f11f21a31f1cf7d0f0405ce.jpg" class="img-responsive">
+
+                    </div>
+                    <p>
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                            </div>
+                            <div class="col-xs-10">
+        Treskowallee 8
+                                <br>
+                                <small></small>
+        10318 Berlin
+                                <small>(Lichtenberg)</small>
+                            </div>
+                        </div>
+                    </p>
+                    <h3>Google Map</h3>
+                    <div id="map-400"></div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>

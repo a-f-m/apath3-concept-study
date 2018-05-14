@@ -106,11 +106,10 @@ case class RelationalExpr(relOp: String, kind: String = "first") extends Expr {
 
     // for now only 'first'
     kind match {
-      case "first" => {
+      case "first" => //
         val it0 = subExpr(0).eval(node, ctx, config)
         val it1 = subExpr(1).eval(node, ctx, config)
         if (it0.isEmpty || it1.isEmpty) singleBool(false) else singleBool(cmp(it0.next(), it1.next()))
-      }
       case _ => throw new RuntimeException(s"for now only comparison kind 'first' allowed ($this)")
     }
   }
@@ -123,7 +122,7 @@ case class Path() extends Expr {
     eval(subExpr, node, ctx, config)
   }
 
-  private def eval(steps: Seq[Expr], node: Node, ctx: Context, config: Config): NodeIter = {
+  def eval(steps: Seq[Expr], node: Node, ctx: Context, config: Config): NodeIter = {
 
     if (steps.isEmpty) {
       Apath.loggSolution(node)
@@ -153,16 +152,16 @@ case class Path() extends Expr {
   }
 }
 
-case class Property(name: String, isAttribute: Boolean = false, namespace: String = "") extends Expr {
+case class Property(name: String, isAttribute: Boolean = false, namespace: String = "none") extends Expr {
 
   // for java
   def this(name: String) {
 
-    this(name, false, "")
+    this(name, false, "none")
   }
   def this(name: String, isAttribute: Boolean) {
 
-    this(name, isAttribute, "")
+    this(name, isAttribute, "none")
   }
 }
 
@@ -194,7 +193,7 @@ case class Filter() extends Expr { // test
     singleBool(nodeTest(subExpr(0).eval(node, ctx, config)), node)
 }
 
-case class VarBind(var varName: String) extends Expr {
+case class VarMatch(var varName: String) extends Expr {
 
   var variable: Option[Var] = None
   var firstOcc: Boolean = false
@@ -208,7 +207,7 @@ case class VarBind(var varName: String) extends Expr {
       firstOcc = p._2
     }
     if (firstOcc) {variable.get.value = Some(node); SingleNodeIter(node, Some(ctx), Some(config))} //<
-    else if (node == variable.get.value.get) SingleNodeIter(node, Some(ctx), Some(config))
+    else if (node eqObj variable.get.value.get) SingleNodeIter(node, Some(ctx), Some(config))
          else NilIter() //>
   }
 
@@ -224,16 +223,17 @@ case class VarBind(var varName: String) extends Expr {
     else varName //>
   }
 
-  override def toString = s"Bind($varName,$firstOcc)"
+  override def toString = s"VarMatch($varName,$firstOcc)"
 }
 
 case class VarAppl(varName: String) extends Expr {
 
   override def eval(node: Node, ctx: Context, config: Config) = {
 
-    val value = ctx.varMap(varName).value
-    if (value.isEmpty) throw new RuntimeException(s"node variable '$varName' not bound") //<
-    else SingleNodeIter(value.get, Some(ctx), Some(config)) //>
+    val v = ctx.varMap.get(varName)
+    if (v.isEmpty) throw new RuntimeException(s"node variable '$varName' not defined") //<
+    if (v.get.value.isEmpty) throw new RuntimeException(s"node variable '$varName' not bound") //<
+    else SingleNodeIter(v.get.value.get, Some(ctx), Some(config)) //>
   }
 }
 
@@ -245,6 +245,8 @@ case class Selector() extends Expr {
 case class Const(value: Any) extends Expr {
 
   override def eval(node: Node, ctx: Context, config: Config) = SingleNodeIter(Node(value))
+
+  def eqValue(thatValue: Any) = thatValue == value
 }
 
 case class Text() extends Expr {
@@ -266,12 +268,30 @@ case class RegexMatch() extends Expr {
 
     val regexIt = subExpr(0).eval(node, ctx, config)
     if (regexIt.isEmpty) {
-      singleBool(false)
+      NilIter()
     } else {
-      val node1 = regexIt.next()
-      node1.obj match {
-        case str: String => singleBool(obj.asInstanceOf[String].matches(str))
-        case _ => throw new RuntimeException(s"type 'String' expected (found '${abbr(node1)}')")
+      val rnode = regexIt.next()
+      var success = true
+      rnode.obj match {
+        case str: String =>  //
+          val matcher = str.r.pattern.matcher(obj.asInstanceOf[String])
+          val cnt = matcher.groupCount()
+          success = matcher.matches()
+          if (success) {
+            for (i <- 0 to cnt) //
+              if (defined(i + 1)) {
+                val arg = subExpr(i + 1)
+                val gi = matcher.group(i)
+                val t = arg match {
+                  case e: Const => e.eqValue(gi)
+                  case _ => nodeTest(arg.eval(Node(gi), ctx, config))
+                }
+                success = success && t
+              }
+            if (success) SingleNodeIter(node, Some(ctx), Some(config)) else NilIter()
+          } else //
+            NilIter()
+        case _ => throw new RuntimeException(s"type 'String' expected (found '${abbr(rnode)}')")
       }
     }
   }
@@ -293,6 +313,8 @@ case class Node(obj: Any, selector: String = "", //<
 
     this(node.obj, node.selector, node.isArray, node.parent, order)
   }
+
+  def eqObj(that: Node) = obj == that.obj
 
   override def toString: String = {
 

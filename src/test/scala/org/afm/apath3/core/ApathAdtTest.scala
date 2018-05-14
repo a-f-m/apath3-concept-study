@@ -5,6 +5,7 @@ import java.io.{FileInputStream, FileReader}
 import net.minidev.json.{JSONObject, JSONValue}
 import org.afm.apath3.accessors._
 import org.afm.util.Testing
+import org.afm.util.Testing.IString
 import org.jsoup.nodes.{Document, Element}
 import org.junit.Assert._
 import org.junit.{Before, Ignore, Test}
@@ -23,7 +24,7 @@ class ApathAdtTest {
 
   @Before def setUp(): Unit = {
 
-    jo = Some(JSONValue.parse(new FileReader("src/test/resources/core/books.json")).asInstanceOf[JSONObject])
+    jo = Some(JSONValue.parse(new FileReader("src/test/resources/samples/books.json")).asInstanceOf[JSONObject])
   }
 
   @Test def test2(): Unit = {
@@ -32,7 +33,7 @@ class ApathAdtTest {
              .eval(new Node(jo.get), new Context(), new Config(acc))
     if (it.isEmpty) fail()
     val r = it.next().toString
-    assertEquals(Testing.expected(false, r), r)
+    assertEquals(Testing.expected(false, r), r.cr())
   }
 
   @Test def test3(): Unit = {
@@ -41,7 +42,7 @@ class ApathAdtTest {
              .eval(Node(jo.get), new Context(), new Config(acc))
     if (it.isEmpty) fail()
     val r = it.next().toString
-    assertEquals(Testing.expected(false, r), r)
+    assertEquals(Testing.expected(false, r), r.cr())
   }
 
   @Test def testSimple(): Unit = {
@@ -52,7 +53,7 @@ class ApathAdtTest {
     val it = expr.eval(Node(jo.get), new Context(), new Config(acc))
 
     val r = it.toList.toString()
-    assertEquals(Testing.expected(false, r), r)
+    assertEquals(Testing.expected(false, r), r.cr())
   }
 
   @Test def testChildren(): Unit = {
@@ -61,24 +62,24 @@ class ApathAdtTest {
              .eval(Node(jo.get), new Context(), new Config(acc))
 
     val s = it.toList.toString()
-    assertEquals(Testing.expected(false, s), s)
+    assertEquals(Testing.expected(false, s), s.cr())
   }
 
   @Test def testDescendants(): Unit = {
 
     var r = ApathAdt.descendants(Node(jo.get), Children(), new Context(), new Config(acc)).toList.toString()
     var exp = Testing.expected(false, r, "0")
-    assertEquals(exp, r)
+    assertEquals(exp, r.cr())
 
     var it = Path().setArgs(Seq(Descendants())).eval(Node(jo.get), new Context(), new Config(acc))
     r = it.toList.toString()
     exp = Testing.expected(false, r, "0.1")
-    assertEquals(exp, r)
+    assertEquals(exp, r.cr())
 
     it = Path().setArgs(Seq(Descendants(), Property("title"))).eval(Node(jo.get), new Context(), new Config(acc))
 
     val ls: String = it.toList.toString()
-    assertEquals(Testing.expected(false, ls, "1"), ls)
+    assertEquals(Testing.expected(false, ls, "1"), ls.cr())
   }
 
   @Test def testPred(): Unit = {
@@ -99,20 +100,20 @@ class ApathAdtTest {
     sbuilder.clear()
 
     var it = Path()
-             .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarBind("v"), Property("title"),
-                          VarBind("o"))).eval(Node(jo.get), ctx, new Config(acc))
+             .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarMatch("v"), Property("title"),
+                          VarMatch("o"))).eval(Node(jo.get), ctx, new Config(acc))
 
     it.foreach(n => {
       sbuilder.append(ctx.toString + " | ")
       sbuilder.append(n + " >>> ")
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString(), "0"), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "0"), sbuilder.toString().cr())
 
     val path = Path().setArgs(Seq(Property("root"), Property("store"), Property("book"), Children(), //
                                   Filter() :+ (BoolExpr("and") :+ //
-                                    (Path() :+ Property("price") :+ VarBind("p")) :+
-                                    (Path() :+ Property("title") :+ VarBind("t")))))
+                                    (Path() :+ Property("price") :+ VarMatch("p")) :+
+                                    (Path() :+ Property("title") :+ VarMatch("t")))))
     it = path.eval(Node(jo.get), ctx, new Config(acc))
 
     sbuilder.clear()
@@ -121,7 +122,7 @@ class ApathAdtTest {
       sbuilder.append("(" + ctx.varMap.get("p") + ", " + ctx.varMap.get("t") + ");")
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString(), "1"), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "1"), sbuilder.toString().cr())
 
     sbuilder.clear()
 
@@ -157,12 +158,12 @@ class ApathAdtTest {
 
 //    assertEquals(" Some(Node(8.95,None,None)) Some(Node(Sayings of the Century,None,None)) Some(Node(12,None,None)) Some(Node(Sword of Honour,None,None))",
 //                 sbuilder.toString())
-    assertEquals(Testing.expected(false, sbuilder.toString(), "2"), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "2"), sbuilder.toString().cr())
   }
 
   @Test def testTransform1(): Unit = {
 
-    val jo_ = JSONValue.parse(new FileReader("src/test/resources/core/expr.json")).asInstanceOf[JSONObject]
+    val jo_ = JSONValue.parse(new FileReader("src/test/resources/samples/expr.json")).asInstanceOf[JSONObject]
 
     sbuilder.clear()
     val expr = new PathParser().parse("expr.times ?(" //
@@ -179,7 +180,7 @@ class ApathAdtTest {
       sbuilder.append(ctx.varMap)
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString()), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString()), sbuilder.toString().cr())
   }
 
   @Test def testBoolOp(): Unit = {
@@ -198,27 +199,27 @@ class ApathAdtTest {
 
   @Test def testConditional(): Unit = {
 
+//    sbuilder.clear()
+//    var expr = new PathParser().parse("  root.store.book[*]." //
+//                                        + "   (price != 8.95 -> " //
+//                                        + "       price ~ " //
+//                                        + "    onStock -> " //
+//                                        + "       title ~ " //
+//                                        + "    99)")
+//    println(expr.prettyString)
+//
+//    ctx.clear()
+//    expr.eval(Node(jo.get), ctx, new Config(acc)).foreach(n => {
+//      sbuilder.append(s" ${n.obj}")
+//    })
+//
+//    assertEquals(" Sayings of the Century 12 99.0", sbuilder.toString())
+
     sbuilder.clear()
-    var expr = new PathParser().parse("  root.store.book[*]." //
-                                        + "   (price != 8.95 -> " //
-                                        + "       price ~ " //
-                                        + "    onStock -> " //
-                                        + "       title ~ " //
-                                        + "    99)")
-    println(expr.prettyString)
-
-    ctx.clear()
-    expr.eval(Node(jo.get), ctx, new Config(acc)).foreach(n => {
-      sbuilder.append(s" ${n.obj}")
-    })
-
-    assertEquals(" Sayings of the Century 12 99.0", sbuilder.toString())
-
-    sbuilder.clear()
-    expr = new PathParser().parse("  root.store.book[*]." //
-                                    + "   (if (price != 8.95) " //
+    val expr = new PathParser().parse("  root.store.book[*]." //
+                                    + "   (if price != 8.95 " //
                                     + "       then price  " //
-                                    + "    else if (onStock) " //
+                                    + "    else if onStock " //
                                     + "       then title " //
                                     + "    )")
     println(expr.prettyString)
@@ -269,12 +270,12 @@ class ApathAdtTest {
       sbuilder.append(s" ${ctx.varMap}")
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString()), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString()), sbuilder.toString().cr())
   }
 
   @Test def testEnhVars(): Unit = {
 
-    val jo_ = JSONValue.parse(new FileReader("src/test/resources/core/texpr.json")).asInstanceOf[JSONObject]
+    val jo_ = JSONValue.parse(new FileReader("src/test/resources/samples/texpr.json")).asInstanceOf[JSONObject]
 
     sbuilder.clear()
     var expr = new PathParser().parse("expr.plus[*]?(times[0].const $c1 and times[0].const $c2)")
@@ -285,7 +286,7 @@ class ApathAdtTest {
       sbuilder.append(s" ${ctx.varMap}")
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString(), "1"), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "1"), sbuilder.toString().cr())
 
     sbuilder.clear()
     expr = new PathParser().parse("expr.plus[*]?((times[0].const $c1 and times[1].const $c2) or times[2].cast $ca)")
@@ -296,7 +297,7 @@ class ApathAdtTest {
       sbuilder.append(s" ${ctx.varMap}")
     })
 
-    assertEquals(Testing.expected(false, sbuilder.toString(), "2"), sbuilder.toString())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "2"), sbuilder.toString().cr())
   }
 
   @Test def testUnion(): Unit = {
@@ -315,7 +316,7 @@ class ApathAdtTest {
   @Test def testSmartMapper(): Unit = {
 
     val m = JJsonSmartMapMapper.parser
-            .parse(new FileReader("src/test/resources/core/books.json"), new JJsonSmartMapMapper())
+            .parse(new FileReader("src/test/resources/samples/books.json"), new JJsonSmartMapMapper())
             .asInstanceOf[java.util.Map[_, _]]
     println(m)
 
@@ -324,14 +325,14 @@ class ApathAdtTest {
              .eval(Node(jo.get), new Context(), new Config(new JavaMapAcc()))
     if (it.isEmpty) fail()
     val s = it.next().toString
-    assertEquals(Testing.expected(false, s), s)
+    assertEquals(Testing.expected(false, s), s.cr())
   }
 
   @Test def testXmlLike(): Unit = {
 
     // we start with html/jsoup
     var jsoupAcc = new JsoupAcc()
-    var doc = jsoupAcc.parse(new FileInputStream("src/test/resources/core/simple-1.xml"))
+    var doc: Document = jsoupAcc.parse(new FileInputStream("src/test/resources/samples/simple-1.xml"))
 
     // jsoup put the xml inside an html body
     var root: Element = doc.asInstanceOf[Document].getElementsByTag("html").get(0).getElementsByTag("body").get(0)
@@ -344,7 +345,7 @@ class ApathAdtTest {
       sbuilder.append(s">> ${ctx.curr}\n")
     })
     var r: String = sbuilder.toString()
-    assertEquals(Testing.expected(false, r, "0"), r)
+    assertEquals(Testing.expected(false, r, "0"), r.cr())
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet[:0:].codeSystem[:0:]..").foreach(ctx => {
@@ -356,7 +357,7 @@ class ApathAdtTest {
     r = ap.get(root, "ValueSet.codeSystem.extension?(@url == 'ext:groupName').valueString.@value")
     assertEquals("EXA", r)
 
-    doc = jsoupAcc.parse(new FileInputStream("src/test/resources/core/books.xml"))
+    doc = jsoupAcc.parse(new FileInputStream("src/test/resources/samples/books.xml"))
     root = doc.asInstanceOf[Document].getElementsByTag("html").get(0).getElementsByTag("body").get(0)
 
     sbuilder.clear()
@@ -372,7 +373,7 @@ class ApathAdtTest {
 
     // we start with html/jsoup
     val xmlAcc = new XmlAcc()
-    var root = xmlAcc.parse(new FileInputStream("src/test/resources/core/simple-1.xml"))
+    var root: Elem = xmlAcc.parse(new FileInputStream("src/test/resources/samples/simple-1.xml"))
 
     val ap = Apath(new Config(xmlAcc))
 
@@ -381,7 +382,7 @@ class ApathAdtTest {
       sbuilder.append(s">> ${ctx.curr}\n")
     })
     var r: String = sbuilder.toString()
-    assertEquals(Testing.expected(false, r, "0"), r)
+    assertEquals(Testing.expected(false, r, "0"), r.cr())
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet[:0:].codeSystem[:0:]..").foreach(ctx => {
@@ -392,7 +393,7 @@ class ApathAdtTest {
     r = ap.get(root, "ValueSet.codeSystem.extension?(@url == 'ext:groupName').valueString.@value")
     assertEquals("EXA", r)
 
-    root = xmlAcc.parse(new FileInputStream("src/test/resources/core/books.xml"))
+    root = xmlAcc.parse(new FileInputStream("src/test/resources/samples/books.xml"))
 
     var elm: Elem = ap.get(root, "doc.root..books.book?(@id == '2').category")
     assertEquals("fiction", elm.text)
@@ -402,8 +403,6 @@ class ApathAdtTest {
 
     r = ap.get(root, "doc..store.*[:1:].*[:1:].text()")
     assertEquals("19.95", r)
-
-
   }
 
   //  @Ignore
@@ -423,13 +422,26 @@ class ApathAdtTest {
 
     var jsoupAcc = new JsoupAcc()
 
-    val doc = jsoupAcc.parse(new FileInputStream("src/test/resources/core/books.xml"))
+    val doc: Document = jsoupAcc.parse(new FileInputStream("src/test/resources/samples/books.xml"))
     val root: Element = doc.asInstanceOf[Document].getElementsByTag("html").get(0).getElementsByTag("body").get(0)
 
+    Apath.globalLoggingNonMatches = true
+    Apath.globalLoggingMatches = true
     val ap = Apath(new Config(jsoupAcc))
-    sbuilder.clear()
 
-    ap.doMatch(root, "doc.root..books.book?(@id.rmatch('\\d')).price.text() $x?(rmatch( $x))").foreach(ctx => {
+    sbuilder.clear()
+    ap.doMatch(root,
+               """doc.root..books.book
+                 |  ?(@id$ and price.text()
+                 |        ?(_ ~'\d(\d)?\.(.*)' groups $all, $id, $penny))
+                 |    .category.text()""".stripMargin).foreach(ctx => {
+      sbuilder.append(s" ${ctx.varMap} >> ${ctx.curr}\n")
+    })
+//    println(Apath.consumeLoggText())
+    assertEquals(Testing.expected(false, sbuilder.toString(), "0"), sbuilder.toString().cr())
+
+    sbuilder.clear()
+    ap.doMatch(root, "doc.root..books.book?(@id ~'\\d').price.text()$x ~ $x").foreach(ctx => {
       sbuilder.append(s" >> ${ctx.curr}")
     })
     assertEquals(" >> 8.95 >> 12.99", sbuilder.toString())
@@ -443,8 +455,8 @@ class ApathAdtTest {
   @Test def doTimes(): Unit = {
 
     var path = Path()
-               .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarBind("v"), Property("title"),
-                            VarBind("o")))
+               .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarMatch("v"), Property("title"),
+                            VarMatch("o")))
 
     times(path, jo.get, 10000)
 
@@ -454,8 +466,8 @@ class ApathAdtTest {
 
     path = Path().setArgs(Seq(Property("root"), Property("store"), Property("book"), Children(), //
                               Filter() :+ (BoolExpr("and") :+ //
-                                (Path() :+ Property("price") :+ VarBind("p")) :+
-                                (Path() :+ Property("title") :+ VarBind("t")))))
+                                (Path() :+ Property("price") :+ VarMatch("p")) :+
+                                (Path() :+ Property("title") :+ VarMatch("t")))))
 
     times(path, jo.get, 1000000)
   }
