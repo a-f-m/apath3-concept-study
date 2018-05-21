@@ -122,7 +122,7 @@ case class Path() extends Expr {
     eval(subExpr, node, ctx, config)
   }
 
-  def eval(steps: Seq[Expr], node: Node, ctx: Context, config: Config): NodeIter = {
+  private def eval(steps: Seq[Expr], node: Node, ctx: Context, config: Config): NodeIter = {
 
     if (steps.isEmpty) {
       Apath.loggSolution(node)
@@ -338,20 +338,11 @@ case class SingleNodeIter(node: Node, ctx: Option[Context] = None, config: Optio
 
   var consumed: Boolean = false
 
-  //  val flatArray = acc.nonEmpty && acc.get.arrayAsFirstClass
-  //  val ch: Option[NodeIter] = if (flatArray)
-  override def hasNext: Boolean = {
+  override def hasNext: Boolean = !consumed
 
-    !consumed
-  }
-
-  override def next() = {
-
-    if (consumed) throw new RuntimeException("no next in Single") else {
-      consumed = true
-      node
-    }
-  }
+  override def next() = //
+    if (consumed) throw new RuntimeException("no next in Single") //<
+    else {consumed = true; node} //>
 }
 
 // for now I see no other possibility to 'downcast'
@@ -371,13 +362,6 @@ case class NilIter() extends NodeIter {
 
 class DelegatedIter() extends NilIter
 
-//case class ObjIter(nid: NodeIter) extends Iterable[Any] {
-//
-//  def iterator = new Iterator[Any] {
-//    def hasNext = nid.hasNext
-//    def next() = nid.next().obj
-//  }
-//}
 object ApathAdt {
 
   def ofType(e: Expr, c: Class[_]): Boolean = c.isInstance(e)

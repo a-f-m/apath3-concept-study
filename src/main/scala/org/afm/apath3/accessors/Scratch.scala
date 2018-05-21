@@ -56,6 +56,7 @@ object Scatch {
         case 1 :: 2 :: rest => println(rest)
         case _ => ()
       }
+      case _ => ()
     }
 
     (x, x.l) match {
