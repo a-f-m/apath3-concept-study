@@ -51,7 +51,7 @@ class Context {
     * @tparam T object type
     * @return matched object
     */
-  def curr[T]: T = currNode.obj.asInstanceOf[T]
+  def current[T]: T = currNode.obj.asInstanceOf[T]
 
   def clear() = {varMap.clear(); currNode = new NilNode; this}
 

@@ -100,7 +100,11 @@ class ApathAdtTest {
     sbuilder.clear()
 
     var it = Path()
-             .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarMatch("v"), Property("title"),
+             .setArgs(Seq(Property("root"),
+                          Property("store"),
+                          Descendants(),
+                          VarMatch("v"),
+                          Property("title"),
                           VarMatch("o"))).eval(Node(jo.get), ctx, new Config(acc))
 
     it.foreach(n => {
@@ -214,14 +218,13 @@ class ApathAdtTest {
 //    })
 //
 //    assertEquals(" Sayings of the Century 12 99.0", sbuilder.toString())
-
     sbuilder.clear()
     val expr = new PathParser().parse("  root.store.book[*]." //
-                                    + "   (if price != 8.95 " //
-                                    + "       then price  " //
-                                    + "    else if onStock " //
-                                    + "       then title " //
-                                    + "    )")
+                                        + "   (if price != 8.95 " //
+                                        + "       then price  " //
+                                        + "    else if onStock " //
+                                        + "       then title " //
+                                        + "    )")
     println(expr.prettyString)
 
     ctx.clear()
@@ -335,21 +338,21 @@ class ApathAdtTest {
     var doc: Document = jsoupAcc.parse(new FileInputStream("src/test/resources/samples/simple-1.xml"))
 
     // jsoup put the xml inside an html body
-    var root: Element = doc.asInstanceOf[Document].getElementsByTag("html").get(0).getElementsByTag("body").get(0)
+    var root: Element = doc.getElementsByTag("html").get(0).getElementsByTag("body").get(0)
 
     val jsoupSeqAcc = new JsoupAcc()
-    val ap = Apath(new Config(jsoupSeqAcc))
+    val ap = new Apath(new Config(jsoupSeqAcc))
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet.codeSystem..").foreach(ctx => {
-      sbuilder.append(s">> ${ctx.curr}\n")
+      sbuilder.append(s">> ${ctx.current}\n")
     })
     var r: String = sbuilder.toString()
     assertEquals(Testing.expected(false, r, "0"), r.cr())
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet[:0:].codeSystem[:0:]..").foreach(ctx => {
-      sbuilder.append(s">> ${ctx.curr}\n")
+      sbuilder.append(s">> ${ctx.current}\n")
     })
     assertEquals(r, sbuilder.toString())
 
@@ -358,7 +361,7 @@ class ApathAdtTest {
     assertEquals("EXA", r)
 
     doc = jsoupAcc.parse(new FileInputStream("src/test/resources/samples/books.xml"))
-    root = doc.asInstanceOf[Document].getElementsByTag("html").get(0).getElementsByTag("body").get(0)
+    root = doc.getElementsByTag("html").get(0).getElementsByTag("body").get(0)
 
     sbuilder.clear()
     var elm: Element = ap.get(root, "doc.root..books.book?(@id == '2').category")
@@ -371,22 +374,44 @@ class ApathAdtTest {
 
   @Test def testXml(): Unit = {
 
-    // we start with html/jsoup
-    val xmlAcc = new XmlAcc()
-    var root: Elem = xmlAcc.parse(new FileInputStream("src/test/resources/samples/simple-1.xml"))
+    // namespaces
+    var xmlAcc = new XmlAcc(false)
+    var ap = new Apath(new Config(xmlAcc))
 
-    val ap = Apath(new Config(xmlAcc))
+    var root: Elem = xmlAcc.parse(new FileInputStream("src/test/resources/samples/yyy.xmi.xml"))
+
+    var value: AnyVal = ap.get(root, "xmi:XMI.@xmi:version")
+    assertEquals("2.1", value)
+
+    try {
+      value = ap.get(root, "XMI.@xmi:version")
+      fail()
+    } catch {
+      case e: Exception => ()
+    }
+
+    xmlAcc = new XmlAcc(true)
+    ap = new Apath(new Config(xmlAcc))
+
+    value = ap.get(root, "XMI.@xmi:version")
+    assertEquals("2.1", value)
+
+    // simple
+    xmlAcc = new XmlAcc(false)
+    ap = new Apath(new Config(xmlAcc))
+
+    root = xmlAcc.parse(new FileInputStream("src/test/resources/samples/simple-1.xml"))
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet.codeSystem..").foreach(ctx => {
-      sbuilder.append(s">> ${ctx.curr}\n")
+      sbuilder.append(s">> ${ctx.current}\n")
     })
     var r: String = sbuilder.toString()
     assertEquals(Testing.expected(false, r, "0"), r.cr())
 
     sbuilder.clear()
     ap.doMatch(root, "ValueSet[:0:].codeSystem[:0:]..").foreach(ctx => {
-      sbuilder.append(s">> ${ctx.curr}\n")
+      sbuilder.append(s">> ${ctx.current}\n")
     })
     assertEquals(r, sbuilder.toString())
 
@@ -408,11 +433,11 @@ class ApathAdtTest {
   //  @Ignore
   @Test def testSelectorVars(): Unit = {
 
-    val ap = Apath(new Config(acc))
+    val ap = new Apath(new Config(acc))
 
     sbuilder.clear()
     ap.doMatch(jo.get, "root.store..§").foreach(ctx => {
-      sbuilder.append(s">> ${ctx.curr} ")
+      sbuilder.append(s">> ${ctx.current} ")
     })
     assertEquals(">> store >> bicycle >> color >> price >> book >> 0 >> author >> price >> onStock >> category >> title >> 1 >> author >> price >> onStock >> category >> title >> 2 >> 0 >> 1 >> 2 ",
                  sbuilder.toString())
@@ -427,7 +452,7 @@ class ApathAdtTest {
 
     Apath.globalLoggingNonMatches = true
     Apath.globalLoggingMatches = true
-    val ap = Apath(new Config(jsoupAcc))
+    val ap = new Apath(new Config(jsoupAcc))
 
     sbuilder.clear()
     ap.doMatch(root,
@@ -435,14 +460,14 @@ class ApathAdtTest {
                  |  ?(@id$ and price.text()
                  |        ?(_ ~'\d(\d)?\.(.*)' groups $all, $id, $penny))
                  |    .category.text()""".stripMargin).foreach(ctx => {
-      sbuilder.append(s" ${ctx.varMap} >> ${ctx.curr}\n")
+      sbuilder.append(s" ${ctx.varMap} >> ${ctx.current}\n")
     })
 //    println(Apath.consumeLoggText())
     assertEquals(Testing.expected(false, sbuilder.toString(), "0"), sbuilder.toString().cr())
 
     sbuilder.clear()
     ap.doMatch(root, "doc.root..books.book?(@id ~'\\d').price.text()$x ~ $x").foreach(ctx => {
-      sbuilder.append(s" >> ${ctx.curr}")
+      sbuilder.append(s" >> ${ctx.current}")
     })
     assertEquals(" >> 8.95 >> 12.99", sbuilder.toString())
   }
@@ -455,7 +480,11 @@ class ApathAdtTest {
   @Test def doTimes(): Unit = {
 
     var path = Path()
-               .setArgs(Seq(Property("root"), Property("store"), Descendants(), VarMatch("v"), Property("title"),
+               .setArgs(Seq(Property("root"),
+                            Property("store"),
+                            Descendants(),
+                            VarMatch("v"),
+                            Property("title"),
                             VarMatch("o")))
 
     times(path, jo.get, 10000)

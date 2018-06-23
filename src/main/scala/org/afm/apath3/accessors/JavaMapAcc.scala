@@ -1,5 +1,6 @@
 package org.afm.apath3.accessors
 
+import java.io.InputStream
 import java.util
 
 import org.afm.apath3.core._
@@ -34,6 +35,8 @@ class JavaMapAcc extends Accessor {
       case _ => new DelegatedIter()
     }
   })
+  override def parse[T](s: String) = ???
+  override def parse[T](in: InputStream) = ???
 }
 
 

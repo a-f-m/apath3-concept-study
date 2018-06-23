@@ -64,7 +64,7 @@ object Scatch {
       case _ => ()
     }
 
-    val acc = new XmlAcc()
+    val acc = new XmlAcc(true)
 
     val elem:Elem = acc.parse("<root a='lala'> <a></a> <b></b>  <b></b>  </root>")
     println(elem)

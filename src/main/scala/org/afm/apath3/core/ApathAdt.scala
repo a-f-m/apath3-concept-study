@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils
 import scala.collection.Iterator
 import scala.collection.JavaConverters._
 
-// ------------------ adt -------------------------
+// ------------------ apath abstract data type -------------------------
 //
 abstract sealed class Expr(var subExpr: Seq[Expr] = Seq.empty) {
 
@@ -152,6 +152,13 @@ case class Path() extends Expr {
   }
 }
 
+/**
+  * Property selection.
+  *
+  * @param name        property name
+  * @param isAttribute ''name'' is a attribute name (for XML)
+  * @param namespace   namespace prefix (for XML), default: "none"
+  */
 case class Property(name: String, isAttribute: Boolean = false, namespace: String = "none") extends Expr {
 
   // for java
@@ -165,6 +172,12 @@ case class Property(name: String, isAttribute: Boolean = false, namespace: Strin
   }
 }
 
+/**
+  * Array subscript.
+  *
+  * @param idx subscript; ==-1 means wildcard, i.e., all array items. Attention: this case will not be passed
+  *            to an accessor
+  */
 case class ArraySubscript(idx: Int = -1) extends Expr {
 
   override def eval(node: Node, ctx: Context, config: Config) = //
@@ -299,6 +312,15 @@ case class RegexMatch() extends Expr {
 
 // ------------------ nodes & iters -------------------------
 //
+/**
+  * Encapsulates an object of the underlying structure ''U'' (e.g. the json structure as an input for matching).
+  *
+  * @param obj      actual object from ''U''
+  * @param selector selector for ''obj'' within the ''parent''
+  * @param isArray  ''obj'' is an array
+  * @param parent   parent object
+  * @param order    order within ''parent''
+  */
 case class Node(obj: Any, selector: String = "", //<
                 isArray: Boolean = false, parent: Option[Any] = None, order: Int = 0) {
   //>

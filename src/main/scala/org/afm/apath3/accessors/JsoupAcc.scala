@@ -18,7 +18,7 @@ class JsoupAcc extends Accessor {
     e match {
       case Property(name, isAttribute, _) => o match {
         case elm: Element => nameRes(elm, name, isAttribute)
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case ArraySubscript(_) => //
         throw new RuntimeException(s"no array subscript allowed, use sequence subscript (object: '${
@@ -26,12 +26,12 @@ class JsoupAcc extends Accessor {
         }')")
       case Children() => o match {
         case elm: Element => iter(elm.children().iterator())
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case Text() => o match {
         case elm: Element => iterO(elm.text(), "")
         case s: String => iterO(s, "")
-        case _ => throw new RuntimeException("fatal should not happen")
+        case _ => NilIter()
       }
       case _ => new DelegatedIter()
     }

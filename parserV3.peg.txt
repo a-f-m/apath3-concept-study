@@ -1,0 +1,77 @@
+Start = expr? !_   ~{error};
+
+//##############################################  expressions ##############################################   
+
+// as usual, operator precedence is defined via an optional-tail (or pass through alternative)
+
+expr = ifExpr  ; 
+
+ifExpr = (
+		    "if"  boolOrExpr "then" expr ("else" expr)?
+		    / boolOrExpr
+			)  ; 
+
+boolOrExpr = boolAndExpr (boolOrOp boolAndExpr)*  ;
+
+boolOrOp = ("or" / "||")  ;
+			
+boolAndExpr = setExpr (boolAndOp setExpr)*  ;
+
+boolAndOp = ("and" / "&&")  ;
+
+setExpr = comparisonExpr (setOp comparisonExpr)*  ; 
+
+setOp = ("union" / "|")  ;
+
+comparisonExpr = simpleExpr (cmpOp simpleExpr)?   ;
+
+cmpOp = ("==" / "!=" / "<"![=] / ">"![=] / "<=" / ">=")  ;  
+
+simpleExpr = (val / var / path)  ;
+
+funcCall = name "(" (expr ("," expr)*)? ")"  ;
+
+val = StringLiteral  / Literal ; // redundancy for comments handling
+
+//##############################################  paths & steps ##############################################
+
+// usual structure of step-oriented processing (as in XPath etc.)
+
+path = (descendants relativePath / relativePath)   ;
+
+relativePath = step (( descendants / "." ) step )* descendants?   ;
+
+descendants = ".."  ;
+
+step = selection varMatch? filter? regexMatch?  ;
+			
+selection = (current / funcCall / property / children / "(" expr ")")
+				subscript? // TODO multi-subscript [ ]...[ ]
+						 ;
+// order ('current';'funcCall') important
+
+current = "_"  ;
+			
+property = ("@" (namespace ":")? name / (namespace ":")? name)  ; // "@" for xml attributes TODO ns:name as rule
+
+namespace = Identifier  ;
+
+name = Identifier  ;
+
+children = "*"  ;
+
+regexMatch = "~" simpleExpr ("groups" group ("," group)*)?  ;
+
+group = (varMatch / simpleExpr)  ; // 'varMatch' first: var match with higher priority
+
+subscript = (sequenceSubscript / arraySubscript)  ;
+
+sequenceSubscript = "[:" (IntegerLiteral / "*") ":]" ;
+
+arraySubscript = "[" (IntegerLiteral / "*") "]" ;
+
+filter = "?" "(" expr ")"  ;
+
+varMatch = var  ;
+
+var = "$" Identifier?  ;

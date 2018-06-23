@@ -2,13 +2,12 @@ package org.afm.apath3.accessors
 
 import java.io._
 
-
 import org.afm.apath3.core._
 
-import scala.xml.Elem
+import scala.xml.{Elem, MetaData, Null, TopScope}
 
 
-class XmlAcc extends Accessor {
+class XmlAcc(val ignoreElementPrefixes: Boolean) extends Accessor {
 
   class XmlNodeIter(s: Iterator[xml.Node]) extends NodeIter {
 
@@ -49,18 +48,33 @@ class XmlAcc extends Accessor {
 
   private def nameRes(elm: Elem, name: String, isAttribute: Boolean): NodeIter = {
 
+    val (hasNs, ns, ln) = nsSplit(name)
     if (isAttribute) {
-      val a = elm.attribute(name)
+      val a = if (hasNs) elm.attribute(elm.scope.getURI(ns), ln) else elm.attribute(name)
       if (a.isEmpty) NilIter() else iterO(a.get.toString(), name)
     } else //<
-        new XmlNodeIter((elm \ name).iterator) //>
+      new XmlNodeIter(elm.child.filter(node => {
+
+        val checkNs =
+          if (ignoreElementPrefixes) true
+          else if (hasNs) ns == node.prefix else node.prefix == null
+
+        checkNs && node.label == ln
+
+      }).iterator) //>
   }
 
 
-  override def parse[T](xml: String)  = wrap(scala.xml.XML.loadString(xml)).asInstanceOf[T]
+  private def nsSplit(name: String) = {
+
+    // in the context of name processing \u0000 is used as the namespace-name delimiter
+    val m = "(.*)\u0000(.*)".r.findFirstMatchIn(name)
+    if (m.nonEmpty) (true, m.get.group(1), m.get.group(2)) else (false, "", name)
+  }
+
+  override def parse[T](xml: String) = wrap(scala.xml.XML.loadString(xml)).asInstanceOf[T]
 
   override def parse[T](in: InputStream) = wrap(scala.xml.XML.load(in)).asInstanceOf[T]
 
-  private def wrap(elem: Elem): Elem = new Elem(elem.prefix, "_root", elem.attributes, elem.scope, elem.minimizeEmpty,
-                                                elem)
+  private def wrap(elem: Elem): Elem = new Elem(null, "_root", Null, TopScope, true, elem)
 }

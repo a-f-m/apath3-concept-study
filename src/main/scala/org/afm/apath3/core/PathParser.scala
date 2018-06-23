@@ -90,8 +90,7 @@ class PathParser() {
       case "selection" => gather(sexpr.tail)
       case "current" => Self()
       case "property" => //
-        val name = escape2(asString(sexpr))
-        val isAttribute = name.startsWith("@")
+        val (isAttribute, name) = escape2(asString(sexpr))
         Property(name.substring(if (isAttribute) 1 else 0), isAttribute)
       case "children" => Children()
       case "selector" => Selector()
@@ -174,6 +173,12 @@ class PathParser() {
     sexpr.asScala.map(x => if (x.isInstanceOf[util.List[_]]) javaListToScalaRec(x.asInstanceOf[util.List[Any]]) else x)
   }
 
-  private def escape2(name: String) = name.replace("\\:", "\u0000").replaceAll("\\\\(.)", "$1")
+  private def escape2(name: String) =
+//    name.replace("\\:", "\u0000").replaceAll("\\\\(.)", "$1")
+  {
+
+    var isAttribute = name.startsWith("@")
+    (isAttribute, name.replaceFirst("(?<!\\\\)\\:", "\u0000").replaceAll("\\\\([^u])", "$1"))
+  }
 }
 

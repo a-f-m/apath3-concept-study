@@ -4,17 +4,18 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.afm.apath3.core.*;
 
+import java.io.InputStream;
+
 import static org.afm.apath3.core.ApathAdt.ofType;
-import static scala.compat.java8.JFunction.func;
 
 
 public class JJsonSmartAcc extends Accessor {
 
     public JJsonSmartAcc() {
 
-        setIsArrayFunc(func(obj -> obj instanceof JSONArray));
-        setIsPropertyMapFunc(func(obj -> obj instanceof JSONObject));
-        setSelectorFunc(func((Node node, Expr e) -> { //>
+        setIsArrayFunc(obj -> obj instanceof JSONArray);
+        setIsPropertyMapFunc(obj -> obj instanceof JSONObject);
+        setSelectorFunc((Node node, Expr e) -> { //>
             Object o = node.obj();
             if (ofType(e, Property.class)) {
                 if (o instanceof JSONObject) {
@@ -43,6 +44,16 @@ public class JJsonSmartAcc extends Accessor {
                 return new DelegatedIter();
             }
 
-        }));
+        });
+    }
+
+    @Override
+    public <T> T parse(String s) {
+        throw new RuntimeException("to be implemented");
+    }
+
+    @Override
+    public <T> T parse(InputStream in) {
+        throw new RuntimeException("to be implemented");
     }
 }

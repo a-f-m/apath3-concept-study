@@ -11,40 +11,46 @@ import scala.collection.JavaConverters._
   *
   * @param config config
   */
-case class Apath(config: Config) {
+class Apath(config: Config) {
 
   val pp = new PathParser()
 
   /**
     * The first match. If d == null a match has to occur.
     *
-    * @param o input object
+    * @param o    input object
     * @param expr apath expression
-    * @param d default if no match
+    * @param d    default if no match (non-null)
     * @tparam T type of the matched object
     * @return matched object
     */
   def get[T](o: Any, expr: String, d: T): T = {
 
     val first = doMatch(o, expr).first
-    if (first.isDefined) first.get.curr.asInstanceOf[T] //<
-    else if (d == null) throw new RuntimeException("no match and no default given") else d //>
+    if (first.isDefined) first.get.current.asInstanceOf[T] //<
+    else if (d == null) throw new RuntimeException("no match and no default given")
+    else d //>
   }
 
   /**
+    * The first match.
     * equivalent to [[org.afm.apath3.core.Apath#get(java.lang.Object, java.lang.String, T)]] apply (_, _, null)
+    *
+    * @param o    input object
+    * @param expr apath expression
+    * @tparam T type of the matched object
+    * @return matched object or an exception if not found
     */
   // Rem.: no scala parameter default when usage from java; we use 'null' for "emptiness"
-  def get[T](o: Any, expr: String): T = {
-    get(o, expr, null.asInstanceOf[T])
-  }
+  def get[T](o: Any, expr: String): T = get(o, expr, null.asInstanceOf[T])
+
 
   /**
     * Iterates over matches.
     *
-    * @param o input object
+    * @param o    input object
     * @param expr apath expression
-    * @param f consumption of the context for each match
+    * @param f    consumption of the context for each match
     * @return a match occurred
     */
   def doMatch(o: Any, expr: String, f: Context => Unit): Boolean = {
@@ -61,7 +67,7 @@ case class Apath(config: Config) {
   /**
     * Iterator over the matches.
     *
-    * @param o input object
+    * @param o    input object
     * @param expr apath expression
     * @return iterator over the match-contexts
     */
@@ -79,21 +85,12 @@ case class Apath(config: Config) {
     }
   }
 
-  /**
-    *
-    * @param expr apath expression
-    * @return equivalent adt-expression
-    */
-  def parse(expr: String): Expr = {
-
-    pp.parse(expr)
-  }
-
   ////// for java usage
   /**
     * see [[org.afm.apath3.core.Apath#doMatch(java.lang.Object, java.lang.String, Context => Unit)]]
     */
-  def doMatch(o: Any, expr: String, f: java.util.function.Consumer[Context]): Boolean = doMatch(o, expr, x => {f.accept(x)})
+  def doMatch(o: Any, expr: String, f: java.util.function.Consumer[Context]): Boolean = //
+    doMatch(o, expr, x => {f.accept(x)})
 
   /**
     * see [[org.afm.apath3.core.Apath#doMatch(java.lang.Object, java.lang.String)]]
