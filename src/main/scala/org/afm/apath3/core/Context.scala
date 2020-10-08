@@ -1,7 +1,5 @@
 package org.afm.apath3.core
 
-import org.afm.apath3.accessors.Accessor
-
 import scala.collection.mutable
 
 
@@ -11,6 +9,8 @@ class Context {
 //  varMap.withDefaultValue(new Var())
 
   var currNode: Node = new NilNode
+
+  var preventClearing = false
 
   def register(name: String): (Var, Boolean) = {
 
@@ -22,20 +22,20 @@ class Context {
   /**
     * The value of an variable.
     *
-    * @param varName
+    * @param varName variable name
     * @tparam T type of the value
     * @return value as option
     */
   def opt[T](varName: String): Option[T] = {
 
     val v = varMap.get(varName)
-    if (v.nonEmpty && v.get.value.nonEmpty) Some[T](v.get.value.get.obj.asInstanceOf[T]) else None
+    if (v.nonEmpty && v.get.getValue().nonEmpty) Some[T](v.get.getValue().get.obj.asInstanceOf[T]) else None
   }
 
   /**
     * The value of an variable or throws an exception if not defined.
     *
-    * @param varName
+    * @param varName variable name
     * @tparam T type of the value
     * @return value
     */
@@ -53,7 +53,7 @@ class Context {
     */
   def current[T]: T = currNode.obj.asInstanceOf[T]
 
-  def clear() = {varMap.clear(); currNode = new NilNode; this}
+  def clear(): Context = {varMap.clear(); currNode = new NilNode; this}
 
   override def toString: String = varMap.toString
 }

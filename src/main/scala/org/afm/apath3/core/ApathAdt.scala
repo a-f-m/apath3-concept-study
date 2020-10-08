@@ -20,15 +20,18 @@ abstract sealed class Expr(var subExpr: Seq[Expr] = Seq.empty) {
 
   def :+(e: Expr): Expr = {if (!e.isInstanceOf[EmptyExpr]) subExpr = subExpr :+ e; this}
 
-  def setArgs(s: java.util.List[Expr]): Expr = setArgs(s.asScala)
+  def setArgs(s: java.util.List[Expr]): Expr = setArgs(s)
   //  {subExpr = s.asScala; this }
-  def clearVars(ctx: Context): Unit = subExpr.foreach(e => e.clearVars(ctx))
+  def clearVars(ctx: Context): Unit = {
+
+    subExpr.foreach(e => e.clearVars(ctx))
+  }
 
   def reset(): Unit = subExpr.foreach(e => e.reset())
 
   def defined(i: Int) = i < subExpr.size
 
-  def eval(node: Node, ctx: Context, config: Config) = {
+  def eval(node: Node, ctx: Context, config: Config): NodeIter = {
 
     val r = config.acc.selectorFunc.get.apply(node, this)
     // so far:
@@ -60,7 +63,7 @@ case class Self() extends Expr { // !!! ->  .._[0]
 case class Conditional() extends Expr { // test, consequent, alternate
   override def eval(node: Node, ctx: Context, config: Config) = {
 
-    if (nodeTest(subExpr(0).eval(node, ctx, config))) subExpr(1).eval(node, ctx, config) //<
+    if (nodeTest(subExpr(0).eval(node, ctx, config), ctx)) subExpr(1).eval(node, ctx, config) //<
     else if (defined(2)) subExpr(2).eval(node, ctx, config) else NilIter() //>
   }
 }
@@ -69,8 +72,8 @@ case class BoolExpr(boolOp: String) extends Expr {
 
   override def eval(node: Node, ctx: Context, config: Config) = {
 
-    val b1 = nodeTest(subExpr(0).eval(node, ctx, config))
-    val b2 = if (defined(1)) nodeTest(subExpr(1).eval(node, ctx, config)) else false
+    val b1 = nodeTest(subExpr(0).eval(node, ctx, config), ctx)
+    val b2 = if (defined(1)) nodeTest(subExpr(1).eval(node, ctx, config), ctx) else false
     boolOp match {
       case "and" => singleBool(b1 && b2)
       case "or" => singleBool(b1 || b2)
@@ -128,6 +131,7 @@ case class Path() extends Expr {
       Apath.loggSolution(node)
       SingleNodeIter(node, Some(ctx), Some(config))
     } else {
+      //      steps.tail.foreach(e => e.clearVars(ctx))
       val itY = steps.head.eval(node, ctx, config)
       Apath.loggStep(itY.isEmpty, node, steps.head)
       new NodeIter {
@@ -188,8 +192,10 @@ case class ArraySubscript(idx: Int = -1) extends Expr {
 
 case class SequenceSubscript(idx: Int = -1) extends Expr {
 
-  override def eval(node: Node, ctx: Context, config: Config) = //
+  override def eval(node: Node, ctx: Context, config: Config) = {
+
     if (idx == -1 || idx == node.order) SingleNodeIter(node) else NilIter()
+  }
 
   override def toString = s"SequenceSubscript(${if (idx == -1) "*" else idx})"
 }
@@ -203,7 +209,7 @@ case class Descendants() extends Expr {
 
 case class Filter() extends Expr { // test
   override def eval(node: Node, ctx: Context, config: Config) = //
-    singleBool(nodeTest(subExpr(0).eval(node, ctx, config)), node)
+    singleBool(nodeTest(subExpr(0).eval(node, ctx, config), ctx), node)
 }
 
 case class VarMatch(var varName: String) extends Expr {
@@ -219,12 +225,17 @@ case class VarMatch(var varName: String) extends Expr {
       variable = Some(p._1)
       firstOcc = p._2
     }
-    if (firstOcc) {variable.get.value = Some(node); SingleNodeIter(node, Some(ctx), Some(config))} //<
-    else if (node eqObj variable.get.value.get) SingleNodeIter(node, Some(ctx), Some(config))
+    if (firstOcc) {variable.get.setValue(Some(node)); SingleNodeIter(node, Some(ctx), Some(config))} //<
+    else if (node eqObj variable.get.getValue().get) SingleNodeIter(node, Some(ctx), Some(config))
          else NilIter() //>
   }
 
-  override def clearVars(ctx: Context) = if (variable.nonEmpty && firstOcc) variable.get.value = None
+  override def clearVars(ctx: Context) = {
+
+    if (variable.nonEmpty && firstOcc && !ctx.preventClearing) {
+      variable.get.setValue(None)
+    }
+  }
   override def reset() = variable = None
 
   private def buildVarName(node: Node) = {
@@ -245,8 +256,8 @@ case class VarAppl(varName: String) extends Expr {
 
     val v = ctx.varMap.get(varName)
     if (v.isEmpty) throw new RuntimeException(s"node variable '$varName' not defined") //<
-    if (v.get.value.isEmpty) throw new RuntimeException(s"node variable '$varName' not bound") //<
-    else SingleNodeIter(v.get.value.get, Some(ctx), Some(config)) //>
+    if (v.get.getValue().isEmpty) throw new RuntimeException(s"node variable '$varName' not bound") //<
+    else SingleNodeIter(v.get.getValue().get, Some(ctx), Some(config)) //>
   }
 }
 
@@ -297,7 +308,7 @@ case class RegexMatch() extends Expr {
                 val gi = matcher.group(i)
                 val t = arg match {
                   case e: Const => e.eqValue(gi)
-                  case _ => nodeTest(arg.eval(Node(gi), ctx, config))
+                  case _ => nodeTest(arg.eval(Node(gi), ctx, config), ctx)
                 }
                 success = success && t
               }
@@ -362,7 +373,7 @@ case class SingleNodeIter(node: Node, ctx: Option[Context] = None, config: Optio
 
   override def hasNext: Boolean = !consumed
 
-  override def next() = //
+  override def next(): Node = //
     if (consumed) throw new RuntimeException("no next in Single") //<
     else {consumed = true; node} //>
 }
@@ -395,16 +406,23 @@ object ApathAdt {
     MultiNodeIter(itself ++ chs.flatMap(n => descendants(n, ch, ctx, config)))
   }
 
-  def nodeTest(it: NodeIter): Boolean = {
+  def nodeTest(it: NodeIter, ctx: Context): Boolean = {
 
-    if (it.hasNext) {
-      val on = it.next()
-      if (it.hasNext) true //<
-      else on.obj match {
-        case b: Boolean => b
-        case _ => true
-      } //>
-    } else false
+    val ret =
+      if (it.hasNext) {
+        // due to pre-fetching invoked clearing has to be suppressed
+        ctx.preventClearing = true
+        //
+        val on = it.next()
+        if (it.hasNext) true //<
+        else on.obj match {
+          case b: Boolean => b
+          case _ => true
+        } //>
+      } else false
+
+    ctx.preventClearing = false
+    ret
   }
 
   def singleBool(b: Boolean): NodeIter = SingleNodeIter(Node(b))
@@ -414,7 +432,7 @@ object ApathAdt {
   def action(a: () => Unit): NodeIter = {
 
     new NodeIter {
-      override def hasNext = {a(); false}
+      override def hasNext: Boolean = {a(); false}
       override def next() = throw new UnsupportedOperationException()
     }
   }

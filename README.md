@@ -6,7 +6,7 @@ The main features are
 * variables, enabling pattern matching known from term rewriting calculi – as an enhancement of classical path languages
 
 * the ability to wrap/access arbitrary structures and made them ready for path selection. For now json, xml, and html is
-supported by small [accessors](src/main/scala/org/afm/apath3/accessors)
+supported by small [accessors](src/main/scala/org/afm/apath3/accessors/JsonSmartAcc.scala)
 
 You can tryout the language via a [playground](http://207.154.243.28/apath-service/home/index.html).
 

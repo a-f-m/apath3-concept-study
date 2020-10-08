@@ -25,12 +25,10 @@ class JavaMapAcc extends Accessor {
         case l: JList => iterO(l.get(idx), idx.toString)
         case _ => NilIter()
       }
-      case Children() => {
-        o match {
-          case m: JMap => iter(m.entrySet().iterator())
-          case l: JList => iter(l.iterator())
-          case _ => NilIter()
-        }
+      case Children() => o match {
+        case m: JMap => iter(m.entrySet().iterator())
+        case l: JList => iter(l.iterator())
+        case _ => NilIter()
       }
       case _ => new DelegatedIter()
     }

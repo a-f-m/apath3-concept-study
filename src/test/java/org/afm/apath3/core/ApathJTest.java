@@ -4,6 +4,7 @@ import net.minidev.json.JSONObject;
 import org.afm.apath3.accessors.Accessor;
 import org.afm.apath3.accessors.JsonSmartAcc;
 import org.afm.apath3.accessors.JsoupAcc;
+import org.afm.apath3.accessors.XmlAcc;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class ApathJTest {
         Apath ap = new Apath(new Config(acc));
 
         // match path on json object
-        boolean success = ap.doMatch(jo, "root.store.book.*?(price $p and title $t)", match -> {
+        boolean success = ap.doMatch(jo, "root.store.book.*?(price.text() $p and title $t)", match -> {
             // for each match
             // access variable 't'
             System.out.println(match.v("t").toString());
@@ -70,6 +71,74 @@ public class ApathJTest {
                 ctx -> {
 
                     System.out.println((String) ctx.v("m"));
+                });
+
+        System.out.println(success);
+    }
+
+    @Test // only scratch, no explicit test
+    public void doHtmlPou() throws FileNotFoundException {
+
+        Accessor jsoupAcc = new JsoupAcc();
+        Document doc = jsoupAcc.parse(new FileInputStream("C:\\Users\\andreas-fm\\Desktop\\source.html"));
+
+        Apath ap = new Apath(new Config(jsoupAcc));
+
+        String expr = "html\n" + "    // Match all 'select' tags filtered by 'id'\n" +
+              "    ..article ?(@class=='account').dl. \n" +
+              "    (dd[:0:].kbd.text()$username and  dd[:1:].kbd.text()$pass)\n";
+        boolean success = ap.doMatch(doc, //
+              expr,
+                //
+                ctx -> {
+//                    System.out.println(ctx.varMap());
+                    System.out.println(ctx.v("username") + ", " + ctx.v("pass"));
+                });
+
+        System.out.println(success);
+    }
+
+    @Test // only scratch, no explicit test
+    public void doHVarIssue() throws FileNotFoundException {
+
+        Accessor jsoupAcc = new JsoupAcc();
+        Document doc = jsoupAcc.parse(
+              "<root>\n" +
+              "   <x a=\"1\"><y>1</y><z>1</z></x>\n" +
+              "   <x a=\"2\"><y>2</y></x>\n" +
+              "   <x a=\"3\"><y>3</y></x>\n" +
+              "</root>\n");
+
+        Apath ap = new Apath(new Config(jsoupAcc));
+
+//        String expr = "html.body.root.x?(@a == '2').text()$x";
+        String expr = "html.body.root.(x[:1:].y.text()$x and true)";
+        boolean success = ap.doMatch(doc, //
+              expr,
+                //
+                ctx -> {
+
+                    System.out.println(ctx.varMap());
+                });
+
+        System.out.println(success);
+    }
+
+    @Test // only scratch, no explicit test
+    public void doXml() throws FileNotFoundException {
+
+        Accessor xmlAcc = new XmlAcc(true);
+        Object doc = xmlAcc.parse(new FileInputStream("C:\\Users\\andreas-fm\\Desktop\\xml-1.txt"));
+
+        Apath ap = new Apath(new Config(xmlAcc));
+
+        String expr = "doc.root..books?(@store == 'A').book[:1:]?(author.text()$x and title.text()$xy)";
+        boolean success = ap.doMatch(doc, //
+              expr,
+                //
+                ctx -> {
+
+                    System.out.println(ctx.varMap());
                 });
 
         System.out.println(success);

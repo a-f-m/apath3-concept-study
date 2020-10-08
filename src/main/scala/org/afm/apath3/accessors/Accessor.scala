@@ -102,7 +102,7 @@ abstract class Accessor {
 
       override def hasNext: Boolean = it.hasNext
 
-      override def next() = get(it.next())
+      override def next(): Node = get(it.next())
     }
   }
 

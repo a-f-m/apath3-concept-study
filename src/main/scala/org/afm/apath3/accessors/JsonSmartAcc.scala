@@ -27,12 +27,10 @@ class JsonSmartAcc extends Accessor {
         case _ => NilIter()
       }
       // result for children selection
-      case Children() => {
-        o match {
-          case jo: JSONObject => iter(jo.entrySet().iterator())
-          case ja: JSONArray => iter(ja.iterator())
-          case _ => NilIter()
-        }
+      case Children() => o match {
+        case jo: JSONObject => iter(jo.entrySet().iterator())
+        case ja: JSONArray => iter(ja.iterator())
+        case _ => NilIter()
       }
       case _ => new DelegatedIter()
     }

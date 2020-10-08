@@ -79,8 +79,8 @@ class Apath(config: Config) {
     val it = pp.parse(expr).eval(Node(o, "", config.acc.isArrayFunc.get.apply()), ctx, config)
     new Iterable[Context] {
       override def iterator = new Iterator[Context] {
-        override def hasNext = it.hasNext
-        override def next() = {ctx.currNode = it.next(); ctx}
+        override def hasNext: Boolean = it.hasNext
+        override def next(): Context = {ctx.currNode = it.next(); ctx}
       }
     }
   }
